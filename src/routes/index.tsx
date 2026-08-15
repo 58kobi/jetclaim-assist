@@ -253,7 +253,9 @@ function Landing() {
                 key={reg.code}
                 className="flex items-start gap-3 rounded-xl border border-border bg-card p-5"
               >
-                <span className="text-2xl leading-none">{reg.flag}</span>
+                <span className="rounded-md bg-brand-blue-soft px-2 py-1 text-[11px] font-extrabold uppercase tracking-wide text-brand-blue">
+                  {reg.code}
+                </span>
                 <div>
                   <p className="font-bold text-navy">{reg.label}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{reg.detail}</p>
