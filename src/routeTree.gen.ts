@@ -20,8 +20,8 @@ import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as RegulationsRouteImport } from './routes/regulations'
 import { Route as YourRightsRouteImport } from './routes/your-rights'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -78,14 +78,14 @@ const YourRightsRoute = YourRightsRouteImport.update({
   path: '/your-rights',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedClaimsClaimIdRoute =
@@ -106,9 +106,9 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -121,9 +121,9 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -138,9 +138,9 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -155,9 +155,9 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/regulations'
     | '/your-rights'
-    | '/admin'
     | '/dashboard'
     | '/claims/$claimId'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -170,9 +170,9 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/regulations'
     | '/your-rights'
-    | '/admin'
     | '/dashboard'
     | '/claims/$claimId'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -186,9 +186,9 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/regulations'
     | '/your-rights'
-    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/claims/$claimId'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -284,18 +284,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof YourRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/claims/$claimId': {
@@ -309,15 +309,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
