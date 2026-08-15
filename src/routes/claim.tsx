@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { ISSUE_TYPES } from "@/lib/jetclaim";
+import { ISSUE_TYPES, AIRLINE_GROUPS } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
