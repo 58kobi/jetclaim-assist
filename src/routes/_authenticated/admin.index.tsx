@@ -18,7 +18,7 @@ import { useIsAdmin } from "@/hooks/use-admin";
 import { CLAIM_STATUSES, formatMoney, statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Claims Queue — JetClaim Admin" },
