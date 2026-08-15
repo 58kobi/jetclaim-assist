@@ -251,11 +251,11 @@ function Landing() {
           <div className="rounded-xl border border-border bg-surface p-6 sm:p-8">
             <h2 className="text-xl font-extrabold text-navy">We Cover International Regulations</h2>
 
-            <div className="mt-6 flex flex-wrap items-start gap-x-8 gap-y-6">
+            <div className="mt-6 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
               {REGULATION_BADGES.slice(0, 6).map((reg) => (
-                <div key={reg.code} className="flex min-w-[180px] flex-1 items-start gap-3">
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-card text-xl shadow-sm">
-                    {reg.flag}
+                <div key={reg.code} className="flex items-start gap-2.5">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-[10px] font-extrabold text-brand-blue">
+                    {reg.code.slice(0, 4)}
                   </span>
                   <div>
                     <p className="text-sm font-bold text-navy">{reg.label}</p>
@@ -263,11 +263,13 @@ function Landing() {
                   </div>
                 </div>
               ))}
-              <Button asChild variant="outline" className="gap-2 border-navy text-navy">
-                <Link to="/regulations">
-                  View All Regulations <ArrowRight className="size-4" />
-                </Link>
-              </Button>
+              <div className="flex xl:justify-end">
+                <Button asChild variant="outline" className="gap-2 border-navy text-navy">
+                  <Link to="/regulations">
+                    View All Regulations <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
