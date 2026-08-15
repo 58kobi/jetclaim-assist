@@ -128,7 +128,7 @@ function Landing() {
               {["Transparent Fees", "98% Success Rate", "Trusted by Thousands of Passengers"].map(
                 (item) => (
                   <li key={item} className="flex items-center gap-2 text-sm font-medium">
-                    <span className="flex size-5 items-center justify-center rounded-full bg-brand-blue">
+                    <span className="flex size-5 items-center justify-center rounded-full bg-navy text-navy-foreground">
                       <Check className="size-3.5" strokeWidth={3} />
                     </span>
                     {item}
@@ -155,8 +155,8 @@ function Landing() {
               onSubmit={checkClaim}
               className="rounded-2xl border border-border bg-card p-6 shadow-2xl sm:p-8"
             >
-              <h2 className="text-2xl font-bold text-navy">Check Your Flight</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <h2 className="text-center text-2xl font-bold text-navy">Check Your Flight</h2>
+              <p className="mt-1 text-center text-sm text-muted-foreground">
                 Start your claim in less than 3 minutes
               </p>
 
@@ -217,18 +217,28 @@ function Landing() {
           <h2 className="text-3xl font-extrabold text-navy sm:text-4xl">How It Works</h2>
           <p className="mt-3 text-muted-foreground">Compensation in 4 simple steps</p>
 
-          <div className="relative mt-14 grid gap-10 md:grid-cols-4">
-            <div className="absolute left-[12%] right-[12%] top-9 hidden border-t-2 border-dashed border-brand-blue/40 md:block" />
+          <div className="mt-12 grid gap-10 md:grid-cols-4">
             {STEPS.map((step, i) => (
               <div key={step.title} className="relative flex flex-col items-center">
-                <span className="relative z-10 flex size-18 items-center justify-center rounded-full border-2 border-brand-blue/30 bg-brand-blue-soft p-5 text-brand-blue">
-                  <step.icon className="size-8" />
-                </span>
-                <span className="mt-4 text-xs font-bold uppercase tracking-wider text-brand-blue">
-                  Step {i + 1}
-                </span>
-                <h3 className="mt-1 text-lg font-bold text-navy">{step.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+                <div className="flex w-full items-center justify-center">
+                  <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-brand-blue">
+                    <step.icon className="size-7" />
+                  </span>
+                  {i < STEPS.length - 1 ? (
+                    <span className="ml-4 hidden flex-1 items-center gap-3 md:flex">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-xs font-bold text-brand-blue">
+                        {i + 1}
+                      </span>
+                      <span className="h-px flex-1 border-t border-dashed border-brand-blue/40" />
+                    </span>
+                  ) : (
+                    <span className="ml-4 hidden size-7 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-xs font-bold text-brand-blue md:flex">
+                      {i + 1}
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-navy">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
               </div>
             ))}
           </div>
@@ -236,32 +246,29 @@ function Landing() {
       </section>
 
       {/* Regulations */}
-      <section className="border-y border-border bg-surface py-16">
+      <section className="pb-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-3xl font-extrabold text-navy">We Cover International Regulations</h2>
-            <Button asChild variant="outline" className="gap-2 border-navy text-navy">
-              <Link to="/regulations">
-                View All Regulations <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-          </div>
+          <div className="rounded-xl border border-border bg-surface p-6 sm:p-8">
+            <h2 className="text-xl font-extrabold text-navy">We Cover International Regulations</h2>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {REGULATION_BADGES.slice(0, 6).map((reg) => (
-              <div
-                key={reg.code}
-                className="flex items-start gap-3 rounded-xl border border-border bg-card p-5"
-              >
-                <span className="rounded-md bg-brand-blue-soft px-2 py-1 text-[11px] font-extrabold uppercase tracking-wide text-brand-blue">
-                  {reg.code}
-                </span>
-                <div>
-                  <p className="font-bold text-navy">{reg.label}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{reg.detail}</p>
+            <div className="mt-6 flex flex-wrap items-start gap-x-8 gap-y-6">
+              {REGULATION_BADGES.slice(0, 6).map((reg) => (
+                <div key={reg.code} className="flex min-w-[180px] flex-1 items-start gap-3">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-card text-xl shadow-sm">
+                    {reg.flag}
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-navy">{reg.label}</p>
+                    <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{reg.detail}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+              <Button asChild variant="outline" className="gap-2 border-navy text-navy">
+                <Link to="/regulations">
+                  View All Regulations <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
