@@ -14,16 +14,298 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      airlines: {
+        Row: {
+          country: string | null
+          created_at: string
+          iata_code: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          iata_code?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          iata_code?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      bank_details: {
+        Row: {
+          account_holder: string
+          account_number: string
+          bank_name: string
+          claim_id: string
+          country: string
+          created_at: string
+          currency: string
+          id: string
+          swift_bic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_holder: string
+          account_number: string
+          bank_name: string
+          claim_id: string
+          country: string
+          created_at?: string
+          currency: string
+          id?: string
+          swift_bic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_holder?: string
+          account_number?: string
+          bank_name?: string
+          claim_id?: string
+          country?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          swift_bic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_details_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: true
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      claim_documents: {
+        Row: {
+          claim_id: string
+          content_type: string | null
+          created_at: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          claim_id: string
+          content_type?: string | null
+          created_at?: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          claim_id?: string
+          content_type?: string | null
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claim_documents_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      claims: {
+        Row: {
+          actual_payout_received_at: string | null
+          airline_name: string
+          arrival_airport: string
+          bank_details_submitted_at: string | null
+          compensation_amount: number | null
+          compensation_currency: string | null
+          created_at: string
+          departure_airport: string
+          description: string | null
+          expected_payout_window: string | null
+          fee_status: string
+          flight_date: string
+          flight_number: string
+          id: string
+          internal_notes: string | null
+          is_refundable: boolean
+          issue_type: string
+          jetclaim_fee_amount: number | null
+          reference: string
+          regulation_code: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          actual_payout_received_at?: string | null
+          airline_name: string
+          arrival_airport: string
+          bank_details_submitted_at?: string | null
+          compensation_amount?: number | null
+          compensation_currency?: string | null
+          created_at?: string
+          departure_airport: string
+          description?: string | null
+          expected_payout_window?: string | null
+          fee_status?: string
+          flight_date: string
+          flight_number: string
+          id?: string
+          internal_notes?: string | null
+          is_refundable?: boolean
+          issue_type: string
+          jetclaim_fee_amount?: number | null
+          reference?: string
+          regulation_code?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          actual_payout_received_at?: string | null
+          airline_name?: string
+          arrival_airport?: string
+          bank_details_submitted_at?: string | null
+          compensation_amount?: number | null
+          compensation_currency?: string | null
+          created_at?: string
+          departure_airport?: string
+          description?: string | null
+          expected_payout_window?: string | null
+          fee_status?: string
+          flight_date?: string
+          flight_number?: string
+          id?: string
+          internal_notes?: string | null
+          is_refundable?: boolean
+          issue_type?: string
+          jetclaim_fee_amount?: number | null
+          reference?: string
+          regulation_code?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      regulations: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          max_compensation: string | null
+          name: string
+          region: string
+          sort_order: number
+          summary: string | null
+          trigger_conditions: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          max_compensation?: string | null
+          name: string
+          region: string
+          sort_order?: number
+          summary?: string | null
+          trigger_conditions?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          max_compensation?: string | null
+          name?: string
+          region?: string
+          sort_order?: number
+          summary?: string | null
+          trigger_conditions?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +432,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
