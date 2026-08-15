@@ -15,7 +15,7 @@ export const Route = createFileRoute("/contact")({
       { title: "Contact JetClaim — Talk to Our Claims Team" },
       { name: "description", content: "Get in touch with the JetClaim team about a flight complaint, an existing claim or a payout question." },
       { property: "og:title", content: "Contact JetClaim" },
-      { property: "og:description", content: "Our claims team replies within one business day." },
+      { property: "og:description", content: "Our claims team replies within 40 minutes, open Monday to Sunday." },
     ],
   }),
   component: Contact,
@@ -34,7 +34,7 @@ function Contact() {
     e.preventDefault();
     const parsed = contactSchema.safeParse(form);
     if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
-    toast.success("Thanks — our team will reply within one business day.");
+    toast.success("Thanks — our team will reply within 40 minutes, Monday to Sunday.");
     setForm({ name: "", email: "", message: "" });
   }
 
@@ -43,7 +43,7 @@ function Contact() {
       <PageHero title="Contact" subtitle="Questions about a claim, a payout or your rights? We're here." />
       <section className="mx-auto grid max-w-5xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4 text-sm text-muted-foreground">
-          <p className="flex items-center gap-2"><Mail className="size-4 text-brand-blue" /> support@jetclaim.com</p>
+          <p className="flex items-center gap-2"><Mail className="size-4 text-brand-blue" /> jetclaimsupport@gmail.com</p>
           <p className="flex items-center gap-2"><Phone className="size-4 text-brand-blue" /> +44 20 7946 0123</p>
           <p className="flex items-center gap-2"><MapPin className="size-4 text-brand-blue" /> London · Berlin · Toronto</p>
         </div>
