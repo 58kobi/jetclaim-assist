@@ -110,22 +110,6 @@ function ClaimPage() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const { data: airlines = [] } = useQuery({
-    queryKey: ["airlines"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("airlines")
-        .select("id,name,iata_code")
-        .order("name");
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const filteredAirlines = airlines
-    .filter((a) => a.name.toLowerCase().includes(airlineQuery.toLowerCase()))
-    .slice(0, 6);
-
   const showGroupedList = airlineOpen;
 
   function addFiles(list: FileList | null) {
