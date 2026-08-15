@@ -108,10 +108,10 @@ function Landing() {
           height={1088}
           className="absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/95 via-navy/85 to-navy/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
 
         <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
-          <div className="text-navy-foreground">
+          <div className="text-navy">
             <h1 className="text-4xl font-extrabold leading-[1.08] sm:text-5xl lg:text-6xl">
               Flight Problems?
               <br />
@@ -119,7 +119,7 @@ function Landing() {
               <br />
               <span className="text-brand-blue">Refunds &amp; Compensation.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-navy-foreground/80">
+            <p className="mt-6 max-w-md text-lg text-navy/75">
               JetClaim helps you file complaints and get what you're entitled to under
               international aviation regulations.
             </p>
@@ -137,15 +137,15 @@ function Landing() {
               )}
             </ul>
 
-            <div className="mt-10 inline-flex flex-wrap items-center gap-3 rounded-lg bg-navy-foreground/10 px-4 py-3 text-sm backdrop-blur">
-              <span className="font-bold">Excellent</span>
+            <div className="mt-10 inline-flex flex-wrap items-center gap-3 rounded-lg border border-border bg-card/90 px-4 py-3 text-sm shadow-sm backdrop-blur">
+              <span className="font-bold text-navy">Excellent</span>
               <span className="flex gap-0.5 text-warning">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="size-4 fill-current" />
                 ))}
               </span>
-              <span className="text-navy-foreground/80">4.8 out of 5 based on 2,500+ reviews</span>
-              <span className="font-semibold">★ Trustpilot</span>
+              <span className="text-muted-foreground">4.8 out of 5 based on 2,500+ reviews</span>
+              <span className="font-semibold text-navy">★ Trustpilot</span>
             </div>
           </div>
 
