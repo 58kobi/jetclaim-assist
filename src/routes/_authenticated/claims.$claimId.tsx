@@ -75,7 +75,7 @@ function ClaimDetail() {
   const timeline = claim.is_refundable ? REFUNDABLE_TIMELINE : COMPLAINT_TIMELINE;
   const currentIndex = Math.max(
     0,
-    timeline.findIndex((s) => s === claim.status),
+    (timeline as readonly string[]).findIndex((s) => s === claim.status),
   );
   const feeSettled = claim.fee_status === "settled";
   const netPayout =
