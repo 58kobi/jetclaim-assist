@@ -109,9 +109,9 @@ function Dashboard() {
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-muted-foreground">
                 <p className="flex items-center gap-2">
-                  <Mail className="size-4 text-brand-blue" /> support@jetclaim.com
+                  <Mail className="size-4 text-brand-blue" /> jetclaimsupport@gmail.com
                 </p>
-                <p>Our claims team replies within one business day, Monday to Friday.</p>
+                <p>Our claims team replies within 40 minutes, open Monday to Sunday.</p>
               </CardContent>
             </Card>
           </TabsContent>
