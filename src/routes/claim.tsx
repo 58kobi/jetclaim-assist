@@ -100,6 +100,16 @@ function ClaimPage() {
   const set = (key: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (airlineRef.current && !airlineRef.current.contains(e.target as Node)) {
+        setAirlineOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   const { data: airlines = [] } = useQuery({
     queryKey: ["airlines"],
     queryFn: async () => {
