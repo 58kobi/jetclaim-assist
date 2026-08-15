@@ -126,10 +126,7 @@ function ClaimPage() {
     .filter((a) => a.name.toLowerCase().includes(airlineQuery.toLowerCase()))
     .slice(0, 6);
 
-  const recognizedAirline = AIRLINE_GROUPS.flatMap((g) => g.airlines).find(
-    (a) => a.name.toLowerCase() === form.airline_name.toLowerCase(),
-  );
-  const showGroupedList = airlineOpen && !recognizedAirline;
+  const showGroupedList = airlineOpen;
 
   function addFiles(list: FileList | null) {
     if (!list) return;
