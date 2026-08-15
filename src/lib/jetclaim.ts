@@ -54,6 +54,87 @@ export function statusTone(status: string): string {
   }
 }
 
+export const AIRLINE_GROUPS = [
+  {
+    label: "United States — US DOT",
+    airlines: [
+      { name: "American Airlines", iata: "AA" },
+      { name: "Delta Air Lines", iata: "DL" },
+      { name: "United Airlines", iata: "UA" },
+      { name: "Southwest Airlines", iata: "WN" },
+      { name: "JetBlue", iata: "B6" },
+      { name: "Alaska Airlines", iata: "AS" },
+    ],
+  },
+  {
+    label: "Europe — EU261",
+    airlines: [
+      { name: "Lufthansa", iata: "LH" },
+      { name: "Air France", iata: "AF" },
+      { name: "KLM", iata: "KL" },
+      { name: "Ryanair", iata: "FR" },
+      { name: "easyJet", iata: "U2" },
+      { name: "Turkish Airlines", iata: "TK" },
+      { name: "Iberia", iata: "IB" },
+    ],
+  },
+  {
+    label: "United Kingdom — UK261",
+    airlines: [
+      { name: "British Airways", iata: "BA" },
+      { name: "Virgin Atlantic", iata: "VS" },
+    ],
+  },
+  {
+    label: "Canada — APPR",
+    airlines: [
+      { name: "Air Canada", iata: "AC" },
+      { name: "WestJet", iata: "WS" },
+    ],
+  },
+  {
+    label: "India — DGCA",
+    airlines: [
+      { name: "IndiGo", iata: "6E" },
+      { name: "Air India", iata: "AI" },
+      { name: "SpiceJet", iata: "SG" },
+    ],
+  },
+  {
+    label: "Middle East / Gulf",
+    airlines: [
+      { name: "Qatar Airways", iata: "QR" },
+      { name: "Emirates", iata: "EK" },
+      { name: "Etihad Airways", iata: "EY" },
+    ],
+  },
+  {
+    label: "Asia-Pacific",
+    airlines: [
+      { name: "Singapore Airlines", iata: "SQ" },
+      { name: "Cathay Pacific", iata: "CX" },
+      { name: "ANA (All Nippon Airways)", iata: "NH" },
+      { name: "AirAsia", iata: "AK" },
+    ],
+  },
+  {
+    label: "Africa",
+    airlines: [
+      { name: "Kenya Airways", iata: "KQ" },
+      { name: "Ethiopian Airlines", iata: "ET" },
+      { name: "South African Airways", iata: "SA" },
+    ],
+  },
+  {
+    label: "South America — ANAC",
+    airlines: [
+      { name: "LATAM Airlines", iata: "LA" },
+      { name: "GOL", iata: "G3" },
+      { name: "Azul", iata: "AD" },
+    ],
+  },
+];
+
 export const REGULATION_BADGES = [
   { code: "EU261", flag: "🇪🇺", label: "EU261", detail: "Up to €600 — EU Regulation EC 261/2004" },
   { code: "UK261", flag: "🇬🇧", label: "UK261", detail: "Up to £520 — UK Regulation" },

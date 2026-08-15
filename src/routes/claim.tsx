@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ArrowLeft, ArrowRight, Check, FileUp, Loader2, Trash2 } from "lucide-react";
@@ -19,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { ISSUE_TYPES } from "@/lib/jetclaim";
+import { ISSUE_TYPES, AIRLINE_GROUPS } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -74,12 +73,14 @@ function ClaimPage() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const fileInput = useRef<HTMLInputElement>(null);
+  const airlineRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [authorized, setAuthorized] = useState(false);
   const [airlineQuery, setAirlineQuery] = useState("");
+  const [airlineOpen, setAirlineOpen] = useState(false);
 
   const [form, setForm] = useState({
     airline_name: "",
@@ -98,21 +99,17 @@ function ClaimPage() {
   const set = (key: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const { data: airlines = [] } = useQuery({
-    queryKey: ["airlines"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("airlines")
-        .select("id,name,iata_code")
-        .order("name");
-      if (error) throw error;
-      return data;
-    },
-  });
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (airlineRef.current && !airlineRef.current.contains(e.target as Node)) {
+        setAirlineOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
-  const filteredAirlines = airlines
-    .filter((a) => a.name.toLowerCase().includes(airlineQuery.toLowerCase()))
-    .slice(0, 6);
+  const showGroupedList = airlineOpen;
 
   function addFiles(list: FileList | null) {
     if (!list) return;
@@ -249,32 +246,75 @@ function ClaimPage() {
           <CardContent className="space-y-5 pt-6">
             {step === 0 ? (
               <>
-                <div className="space-y-1.5">
+                <div className="space-y-1.5" ref={airlineRef}>
                   <Label htmlFor="airline">Airline</Label>
                   <Input
                     id="airline"
-                    placeholder="Search airlines"
+                    placeholder="Search or choose an airline"
                     value={form.airline_name || airlineQuery}
+                    onFocus={() => setAirlineOpen(true)}
                     onChange={(e) => {
+                      setAirlineOpen(true);
                       setAirlineQuery(e.target.value);
                       set("airline_name", e.target.value);
                     }}
                   />
-                  {airlineQuery && filteredAirlines.length > 0 && form.airline_name !== filteredAirlines[0]?.name ? (
-                    <div className="rounded-md border border-border bg-popover">
-                      {filteredAirlines.map((a) => (
+                  {showGroupedList ? (
+                    <div className="max-h-80 overflow-auto rounded-md border border-border bg-popover shadow-sm">
+                      {airlineQuery ? (
+                        <div className="border-b border-border px-3 py-2">
+                          <button
+                            type="button"
+                            className="block w-full text-left text-sm font-medium text-navy hover:text-brand-blue"
+                            onClick={() => {
+                              set("airline_name", airlineQuery);
+                              setAirlineQuery("");
+                              setAirlineOpen(false);
+                            }}
+                          >
+                            Use “{airlineQuery}”
+                          </button>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Can’t see your airline? Type it manually.
+                          </p>
+                        </div>
+                      ) : null}
+                      {AIRLINE_GROUPS.map((group) => (
+                        <div key={group.label} className="border-b border-border last:border-0">
+                          <div className="bg-muted/40 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            {group.label}
+                          </div>
+                          <div className="py-1">
+                            {group.airlines.map((a) => (
+                              <button
+                                key={a.name}
+                                type="button"
+                                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent/10"
+                                onClick={() => {
+                                  set("airline_name", a.name);
+                                  setAirlineQuery("");
+                                  setAirlineOpen(false);
+                                }}
+                              >
+                                <span>{a.name}</span>
+                                <span className="text-xs text-muted-foreground">{a.iata}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                      <div className="px-3 py-2">
                         <button
-                          key={a.id}
                           type="button"
-                          className="block w-full px-3 py-2 text-left text-sm hover:bg-accent/10"
+                          className="block w-full text-left text-xs text-muted-foreground hover:text-navy"
                           onClick={() => {
-                            set("airline_name", a.name);
-                            setAirlineQuery("");
+                            set("airline_name", airlineQuery || form.airline_name);
+                            setAirlineOpen(false);
                           }}
                         >
-                          {a.name} {a.iata_code ? `(${a.iata_code})` : ""}
+                          Other airline — type it above
                         </button>
-                      ))}
+                      </div>
                     </div>
                   ) : null}
                 </div>
