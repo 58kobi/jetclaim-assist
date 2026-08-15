@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-admin";
 import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
@@ -28,6 +29,7 @@ export function SiteHeader() {
   const [lang, setLang] = useState("EN");
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -75,6 +77,11 @@ export function SiteHeader() {
 
           {user ? (
             <>
+              {isAdmin ? (
+                <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+                  <Link to="/admin">Admin</Link>
+                </Button>
+              ) : null}
               <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
@@ -120,9 +127,16 @@ export function SiteHeader() {
               </Link>
             ))}
             {user ? (
-              <Link to="/dashboard" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium">
-                Dashboard
-              </Link>
+              <>
+                {isAdmin ? (
+                  <Link to="/admin" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium">
+                    Admin
+                  </Link>
+                ) : null}
+                <Link to="/dashboard" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium">
+                  Dashboard
+                </Link>
+              </>
             ) : (
               <Link to="/auth" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium">
                 Log In
