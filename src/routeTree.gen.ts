@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ClaimRouteImport } from './routes/claim'
 import { Route as ClaimSubmittedRouteImport } from './routes/claim-submitted'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,6 +46,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedClaimsClaimIdRoute =
+  AuthenticatedClaimsClaimIdRouteImport.update({
+    id: '/claims/$claimId',
+    path: '/claims/$claimId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/claim': typeof ClaimRoute
   '/claim-submitted': typeof ClaimSubmittedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/claim': typeof ClaimRoute
   '/claim-submitted': typeof ClaimSubmittedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +77,25 @@ export interface FileRoutesById {
   '/claim': typeof ClaimRoute
   '/claim-submitted': typeof ClaimSubmittedRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/claim' | '/claim-submitted' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/claim'
+    | '/claim-submitted'
+    | '/dashboard'
+    | '/claims/$claimId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/claim' | '/claim-submitted' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/claim'
+    | '/claim-submitted'
+    | '/dashboard'
+    | '/claims/$claimId'
   id:
     | '__root__'
     | '/'
@@ -82,6 +104,7 @@ export interface FileRouteTypes {
     | '/claim'
     | '/claim-submitted'
     | '/_authenticated/dashboard'
+    | '/_authenticated/claims/$claimId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -136,15 +159,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/claims/$claimId': {
+      id: '/_authenticated/claims/$claimId'
+      path: '/claims/$claimId'
+      fullPath: '/claims/$claimId'
+      preLoaderRoute: typeof AuthenticatedClaimsClaimIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

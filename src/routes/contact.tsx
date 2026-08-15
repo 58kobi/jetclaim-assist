@@ -1,0 +1,69 @@
+import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { PageHero, PageShell } from "@/components/site/page-shell";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
+export const Route = createFileRoute("/contact")({
+  head: () => ({
+    meta: [
+      { title: "Contact JetClaim — Talk to Our Claims Team" },
+      { name: "description", content: "Get in touch with the JetClaim team about a flight complaint, an existing claim or a payout question." },
+      { property: "og:title", content: "Contact JetClaim" },
+      { property: "og:description", content: "Our claims team replies within one business day." },
+    ],
+  }),
+  component: Contact,
+});
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Please enter your name").max(100),
+  email: z.string().trim().email("Enter a valid email address").max(255),
+  message: z.string().trim().min(10, "Tell us a little more").max(1000),
+});
+
+function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const parsed = contactSchema.safeParse(form);
+    if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
+    toast.success("Thanks — our team will reply within one business day.");
+    setForm({ name: "", email: "", message: "" });
+  }
+
+  return (
+    <PageShell>
+      <PageHero title="Contact" subtitle="Questions about a claim, a payout or your rights? We're here." />
+      <section className="mx-auto grid max-w-5xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.2fr]">
+        <div className="space-y-4 text-sm text-muted-foreground">
+          <p className="flex items-center gap-2"><Mail className="size-4 text-brand-blue" /> support@jetclaim.com</p>
+          <p className="flex items-center gap-2"><Phone className="size-4 text-brand-blue" /> +44 20 7946 0123</p>
+          <p className="flex items-center gap-2"><MapPin className="size-4 text-brand-blue" /> London · Berlin · Toronto</p>
+        </div>
+
+        <form onSubmit={submit} className="space-y-4 rounded-xl border border-border bg-card p-6">
+          <div className="space-y-1.5">
+            <Label htmlFor="cname">Name</Label>
+            <Input id="cname" maxLength={100} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="cemail">Email</Label>
+            <Input id="cemail" type="email" maxLength={255} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="cmsg">Message</Label>
+            <Textarea id="cmsg" rows={6} maxLength={1000} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+          </div>
+          <Button type="submit" className="bg-navy text-navy-foreground hover:bg-navy-deep">Send message</Button>
+        </form>
+      </section>
+    </PageShell>
+  );
+}
