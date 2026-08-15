@@ -33,7 +33,7 @@ function Contact() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = contactSchema.safeParse(form);
-    if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
     toast.success("Thanks — our team will reply within one business day.");
     setForm({ name: "", email: "", message: "" });
   }

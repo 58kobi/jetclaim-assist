@@ -151,7 +151,7 @@ function ProfilePanel() {
       })
       .eq("id", auth.user!.id);
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Profile updated");
     refetch();
   }

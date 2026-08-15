@@ -124,16 +124,16 @@ function ClaimPage() {
   function next() {
     if (step === 0) {
       const parsed = flightSchema.safeParse(form);
-      if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
+      if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
     }
     if (step === 1) {
       const parsed = issueSchema.safeParse(form);
-      if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
+      if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
     }
     if (step === 3) {
       const parsed = contactSchema.safeParse(form);
-      if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
-      if (!authorized) return toast.error("Please authorize JetClaim to act on your behalf.");
+      if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
+      if (!authorized) { toast.error("Please authorize JetClaim to act on your behalf."); return; }
     }
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
   }

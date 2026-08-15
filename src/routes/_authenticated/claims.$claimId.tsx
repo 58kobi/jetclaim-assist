@@ -88,7 +88,7 @@ function ClaimDetail() {
       .from("claims")
       .update({ fee_status: "settled", status: "Awaiting Payout" })
       .eq("id", claimId);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`Fee settlement recorded via ${method}.`);
     queryClient.invalidateQueries({ queryKey: ["claims"] });
   }
@@ -286,7 +286,7 @@ function BankDetailsCard({
         .eq("id", claimId);
     }
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Bank details submitted");
     queryClient.invalidateQueries({ queryKey: ["bank-details", claimId] });
     queryClient.invalidateQueries({ queryKey: ["claims", claimId] });
