@@ -23,6 +23,7 @@ import { Route as YourRightsRouteImport } from './routes/your-rights'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
+import { Route as AuthenticatedAdminClaimsClaimIdRouteImport } from './routes/_authenticated/admin.claims.$claimId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,12 @@ const AuthenticatedClaimsClaimIdRoute =
     path: '/claims/$claimId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminClaimsClaimIdRoute =
+  AuthenticatedAdminClaimsClaimIdRouteImport.update({
+    id: '/admin/claims/$claimId',
+    path: '/admin/claims/$claimId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/claims/$claimId'
     | '/admin/'
+    | '/admin/claims/$claimId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/claims/$claimId'
     | '/admin'
+    | '/admin/claims/$claimId'
   id:
     | '__root__'
     | '/'
@@ -189,6 +201,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/claims/$claimId'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/claims/$claimId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClaimsClaimIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/claims/$claimId': {
+      id: '/_authenticated/admin/claims/$claimId'
+      path: '/admin/claims/$claimId'
+      fullPath: '/admin/claims/$claimId'
+      preLoaderRoute: typeof AuthenticatedAdminClaimsClaimIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -312,12 +332,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminClaimsClaimIdRoute: typeof AuthenticatedAdminClaimsClaimIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminClaimsClaimIdRoute: AuthenticatedAdminClaimsClaimIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
