@@ -74,12 +74,14 @@ function ClaimPage() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const fileInput = useRef<HTMLInputElement>(null);
+  const airlineRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [authorized, setAuthorized] = useState(false);
   const [airlineQuery, setAirlineQuery] = useState("");
+  const [airlineOpen, setAirlineOpen] = useState(false);
 
   const [form, setForm] = useState({
     airline_name: "",
