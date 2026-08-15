@@ -144,7 +144,7 @@ function AdminClaimReview() {
         regulation_code: regulation === "none" ? null : regulation,
         status,
         internal_notes: notes,
-        fee_status: fee === "" ? "not_set" : claim.fee_status === "settled" ? "settled" : "pending",
+        fee_status: fee === "" ? "not_set" : data!.claim.fee_status === "settled" ? "settled" : "pending",
       })
       .eq("id", claimId);
     setSaving(false);
@@ -174,7 +174,7 @@ function AdminClaimReview() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `claim-letter-${claim.reference}.txt`;
+    a.download = `claim-letter-${data!.claim.reference}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }
