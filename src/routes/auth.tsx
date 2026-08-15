@@ -82,7 +82,7 @@ function AuthPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Account created. Check your inbox if confirmation is required.");
+    toast.success("Account created. You're signed in.");
     navigate({ to: "/dashboard" });
   }
 
