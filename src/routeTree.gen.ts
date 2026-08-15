@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ClaimRouteImport } from './routes/claim'
+import { Route as ClaimSubmittedRouteImport } from './routes/claim-submitted'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +24,49 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClaimRoute = ClaimRouteImport.update({
+  id: '/claim',
+  path: '/claim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimSubmittedRoute = ClaimSubmittedRouteImport.update({
+  id: '/claim-submitted',
+  path: '/claim-submitted',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/claim': typeof ClaimRoute
+  '/claim-submitted': typeof ClaimSubmittedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/claim': typeof ClaimRoute
+  '/claim-submitted': typeof ClaimSubmittedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/claim': typeof ClaimRoute
+  '/claim-submitted': typeof ClaimSubmittedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth'
+  fullPaths: '/' | '/auth' | '/claim' | '/claim-submitted'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth'
-  id: '__root__' | '/' | '/auth'
+  to: '/' | '/auth' | '/claim' | '/claim-submitted'
+  id: '__root__' | '/' | '/auth' | '/claim' | '/claim-submitted'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  ClaimRoute: typeof ClaimRoute
+  ClaimSubmittedRoute: typeof ClaimSubmittedRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/claim': {
+      id: '/claim'
+      path: '/claim'
+      fullPath: '/claim'
+      preLoaderRoute: typeof ClaimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim-submitted': {
+      id: '/claim-submitted'
+      path: '/claim-submitted'
+      fullPath: '/claim-submitted'
+      preLoaderRoute: typeof ClaimSubmittedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  ClaimRoute: ClaimRoute,
+  ClaimSubmittedRoute: ClaimSubmittedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
