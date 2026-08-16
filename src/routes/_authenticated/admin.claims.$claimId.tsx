@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
-import { CLAIM_STATUSES, REGULATION_BADGES, formatMoney } from "@/lib/jetclaim";
+import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
 
 export const Route = createFileRoute("/_authenticated/admin/claims/$claimId")({
   head: () => ({
@@ -241,6 +241,34 @@ function AdminClaimReview() {
                 ) : (
                   <p className="text-sm text-muted-foreground">No documents uploaded.</p>
                 )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-navy">Regulation & payout</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm">
+                {(() => {
+                  const reg = REGULATION_DETAILS.find((r) => r.code === (regulation === "none" ? "" : regulation));
+                  const comp = amount === "" ? null : Number(amount);
+                  const feeNum = fee === "" ? null : Number(fee);
+                  return (
+                    <>
+                      <Row label="Regulation" value={reg ? reg.name : "Not matched yet"} />
+                      <Row label="Applicable amount" value={reg ? reg.compensation : "—"} />
+                      <Row label="Claim deadline" value={reg ? reg.deadline : "—"} />
+                      <div className="my-2 border-t border-border" />
+                      <Row label="Compensation confirmed" value={formatMoney(comp, currency)} />
+                      <Row label="JetClaim fee" value={formatMoney(feeNum, currency)} />
+                      <Row
+                        label="Client receives"
+                        value={comp == null ? "—" : formatMoney(comp - (feeNum ?? 0), currency)}
+                      />
+                      <Row label="Claim type" value={refundable ? "Refundable / compensable" : "Complaint only"} />
+                    </>
+                  );
+                })()}
               </CardContent>
             </Card>
           </div>

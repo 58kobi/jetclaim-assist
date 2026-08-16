@@ -253,11 +253,3 @@ export const REGULATION_DETAILS: RegulationDetail[] = [
   },
 ];
 
-export function legacyFormatMoney(amount: number | null | undefined, currency = "EUR") {
-  if (amount == null) return "—";
-  try {
-    return new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(amount);
-  } catch {
-    return `${currency} ${amount.toFixed(2)}`;
-  }
-}
