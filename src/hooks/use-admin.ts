@@ -15,7 +15,9 @@ export function useIsAdmin() {
       if (error) return false;
       return (rows?.length ?? 0) > 0;
     },
-    staleTime: 60_000,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnWindowFocus: false,
   });
   return { isAdmin: data === true, loading: isLoading };
 }

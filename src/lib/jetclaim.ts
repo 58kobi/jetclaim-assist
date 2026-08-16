@@ -154,3 +154,102 @@ export function formatMoney(amount: number | null | undefined, currency = "EUR")
     return `${currency} ${amount.toFixed(2)}`;
   }
 }
+
+export type RegulationDetail = {
+  code: string;
+  chip: string;
+  name: string;
+  region: string;
+  appliesTo: string;
+  covers: string;
+  compensation: string;
+  deadline: string;
+};
+
+export const REGULATION_DETAILS: RegulationDetail[] = [
+  {
+    code: "EU261",
+    chip: "EU",
+    name: "EU261 (EC 261/2004)",
+    region: "European Union",
+    appliesTo: "Flights departing any EU airport, or landing in the EU on an EU-based carrier.",
+    covers: "Delay of 3+ hours, cancellation with under 14 days' notice, denied boarding.",
+    compensation: "€250 (up to 1,500 km) · €400 (1,500–3,500 km) · €600 (3,500 km+)",
+    deadline: "Varies by member state — 1 to 6 years",
+  },
+  {
+    code: "UK261",
+    chip: "UK",
+    name: "UK261",
+    region: "United Kingdom",
+    appliesTo: "Flights departing the UK, or landing in the UK on a British carrier.",
+    covers: "Same triggers as EU261 — delay, cancellation, denied boarding.",
+    compensation: "£220 – £520 depending on distance",
+    deadline: "Up to 6 years (England & Wales)",
+  },
+  {
+    code: "USDOT",
+    chip: "US",
+    name: "US DOT Rules",
+    region: "United States",
+    appliesTo: "US domestic and US-departing international flights.",
+    covers:
+      "Automatic refunds for delays over 3 hrs domestic / 6 hrs international, denied boarding compensation, tarmac delay rights.",
+    compensation: "Refunds, plus denied boarding compensation up to $2,150",
+    deadline: "No fixed federal deadline — file as soon as possible",
+  },
+  {
+    code: "APPR",
+    chip: "CA",
+    name: "Canada APPR",
+    region: "Air Passenger Protection Regulations",
+    appliesTo: "Flights to, from, or within Canada.",
+    covers: "Disruptions within the airline's control, cancellations notified inside 14 days.",
+    compensation: "Up to C$1,000 (large carriers), lower fixed tiers for small carriers",
+    deadline: "1 year",
+  },
+  {
+    code: "DGCA",
+    chip: "IN",
+    name: "India DGCA — Passenger Charter",
+    region: "India",
+    appliesTo: "Flights to, from, or within India.",
+    covers:
+      "Delays (meals, rebooking or refund past 6 hrs — no cash for delay alone), cancellations, denied boarding.",
+    compensation: "Cancellations up to ₹10,000 · Denied boarding 200–400% of fare, capped around ₹20,000",
+    deadline: "File promptly — airline complaint windows are short",
+  },
+  {
+    code: "ANAC",
+    chip: "BR",
+    name: "Brazil ANAC",
+    region: "Brazil",
+    appliesTo: "Flights to, from, or within Brazil.",
+    covers:
+      "Delay 2–4 hrs (meal vouchers), delay 4+ hrs (communication, meals, accommodation if overnight).",
+    compensation: "Assistance and re-routing or refund; damages assessed case by case",
+    deadline: "Generally 5 years for consumer claims",
+  },
+  {
+    code: "SHY",
+    chip: "TR",
+    name: "Turkey SHY — Passenger Regulation",
+    region: "Türkiye",
+    appliesTo: "Flights departing Turkish airports, or flights to Turkey on Turkish carriers.",
+    covers: "Delay 2+ hrs (domestic), 3–4+ hrs (international), cancellation and denied boarding.",
+    compensation: "Domestic from €100 · International €250 – €600",
+    deadline: "1.5 years",
+  },
+  {
+    code: "MONTREAL",
+    chip: "GLOBAL",
+    name: "Montreal Convention — Global Baggage Coverage",
+    region: "140+ member states worldwide",
+    appliesTo:
+      "Most international flights worldwide, regardless of which regional regulation also applies to the route.",
+    covers: "Lost, delayed or damaged baggage; passenger injury or death.",
+    compensation: "Up to approximately $1,300 – $1,545 for baggage; higher limits for injury or death claims",
+    deadline: "2 years from arrival (7–21 days to report baggage)",
+  },
+];
+
