@@ -95,11 +95,19 @@ export function SiteHeader() {
             </Button>
           )}
 
-          <Button asChild size="sm" className="gap-1.5 bg-navy text-navy-foreground hover:bg-navy-deep">
-            <Link to="/claim">
-              File a Claim <ArrowRight className="size-4" />
-            </Link>
-          </Button>
+          {isAdmin ? (
+            <Button asChild size="sm" className="gap-1.5 bg-navy text-navy-foreground hover:bg-navy-deep">
+              <Link to="/admin">
+                Claims Queue <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild size="sm" className="gap-1.5 bg-navy text-navy-foreground hover:bg-navy-deep">
+              <Link to="/claim">
+                File a Claim <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          )}
 
           <Button
             variant="ghost"

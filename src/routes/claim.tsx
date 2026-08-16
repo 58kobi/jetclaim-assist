@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ArrowLeft, ArrowRight, Check, FileUp, Loader2, Trash2 } from "lucide-react";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { ISSUE_TYPES, AIRLINE_GROUPS } from "@/lib/jetclaim";
+import { useIsAdmin } from "@/hooks/use-admin";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -70,6 +71,27 @@ const contactSchema = z.object({
 });
 
 function ClaimPage() {
+  const { isAdmin, loading } = useIsAdmin();
+  if (loading) return null;
+  if (isAdmin) {
+    return (
+      <PageShell>
+        <div className="mx-auto max-w-md px-4 py-24 text-center">
+          <h1 className="text-2xl font-extrabold text-navy">Admin accounts can't file claims</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            You're signed in as the JetClaim admin. Use the console to review passenger claims.
+          </p>
+          <Button asChild className="mt-6 bg-navy text-navy-foreground hover:bg-navy-deep">
+            <Link to="/admin">Go to claims queue</Link>
+          </Button>
+        </div>
+      </PageShell>
+    );
+  }
+  return <ClaimForm />;
+}
+
+function ClaimForm() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const fileInput = useRef<HTMLInputElement>(null);
