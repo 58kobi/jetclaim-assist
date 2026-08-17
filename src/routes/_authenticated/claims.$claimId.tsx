@@ -40,7 +40,7 @@ export const Route = createFileRoute("/_authenticated/claims/$claimId")({
 function ClaimDetail() {
   const { claimId } = Route.useParams();
   const queryClient = useQueryClient();
-  useClaimsRealtime(claimId);
+  const { flash } = useClaimsRealtime(claimId);
 
   const { data: claim, isLoading } = useQuery({
     queryKey: ["claims", claimId],
@@ -113,7 +113,13 @@ function ClaimDetail() {
               {claim.reference}
             </p>
           </div>
-          <span className={cn("rounded-full border px-3 py-1 text-xs font-semibold", statusTone(claim.status))}>
+          <span
+            className={cn(
+              "rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-500",
+              statusTone(claim.status),
+              flash && "ring-2 ring-brand-blue ring-offset-2 scale-105",
+            )}
+          >
             {claim.status}
           </span>
         </div>
