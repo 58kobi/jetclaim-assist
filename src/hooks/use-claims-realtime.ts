@@ -47,7 +47,7 @@ export function useClaimsRealtime(claimId?: string) {
             TRACKED.some((f) => !prev || prev[f] !== next[f]);
 
           if (changed) {
-            const status = typeof next?.status === "string" ? next.status : null;
+            const status = typeof next?.["status"] === "string" ? (next["status"] as string) : null;
             toast.info(
               status
                 ? `Your claim status has been updated — ${status}`
