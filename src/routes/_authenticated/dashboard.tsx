@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  useClaimsRealtime();
+  const { flash } = useClaimsRealtime();
   const { data: claims, isLoading } = useQuery({
     queryKey: ["claims"],
     queryFn: async () => {
@@ -75,7 +75,13 @@ function Dashboard() {
                       </p>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className={cn("rounded-full border px-3 py-1 text-xs font-semibold", statusTone(claim.status))}>
+                      <span
+                        className={cn(
+                          "rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-500",
+                          statusTone(claim.status),
+                          flash && "ring-2 ring-brand-blue ring-offset-2 scale-105",
+                        )}
+                      >
                         {claim.status}
                       </span>
                       <Link
