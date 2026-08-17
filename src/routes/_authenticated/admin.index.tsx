@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
+import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, formatMoney, statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
