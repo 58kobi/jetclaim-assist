@@ -35,6 +35,7 @@ type SortKey = "created_at" | "airline_name" | "issue_type" | "status" | "compen
 
 function AdminQueue() {
   const { isAdmin, loading } = useIsAdmin();
+  useClaimsRealtime();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
   const [sortKey, setSortKey] = useState<SortKey>("created_at");
