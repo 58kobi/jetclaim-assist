@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
+import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, formatMoney, statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,7 @@ type SortKey = "created_at" | "airline_name" | "issue_type" | "status" | "compen
 
 function AdminQueue() {
   const { isAdmin, loading } = useIsAdmin();
+  useClaimsRealtime();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
   const [sortKey, setSortKey] = useState<SortKey>("created_at");
