@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
+  useClaimsRealtime();
   const { data: claims, isLoading } = useQuery({
     queryKey: ["claims"],
     queryFn: async () => {
@@ -36,6 +38,7 @@ function Dashboard() {
       if (error) throw error;
       return data;
     },
+    refetchOnWindowFocus: true,
   });
 
   return (
