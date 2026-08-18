@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowUpDown } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsAdmin } from "@/hooks/use-admin";
+import { useAdminClaims } from "@/hooks/use-admin-claims";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, formatMoney, statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
@@ -32,28 +31,6 @@ export const Route = createFileRoute("/_authenticated/admin/claims/")({
 });
 
 type SortKey = "created_at" | "airline_name" | "issue_type" | "status" | "compensation_amount" | "client";
-
-export function useAdminClaims() {
-  const { isAdmin } = useIsAdmin();
-  return useQuery({
-    enabled: isAdmin,
-    queryKey: ["admin-claims"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("claims")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      const ids = Array.from(new Set((data ?? []).map((c) => c.user_id)));
-      const { data: profiles } = ids.length
-        ? await supabase.from("profiles").select("id, full_name, email, phone").in("id", ids)
-        : { data: [] as Array<{ id: string; full_name: string | null; email: string | null; phone: string | null }> };
-      const byId = new Map((profiles ?? []).map((p) => [p.id, p]));
-      return (data ?? []).map((c) => ({ ...c, client: byId.get(c.user_id) ?? null }));
-    },
-    refetchOnWindowFocus: true,
-  });
-}
 
 function AdminQueue() {
   useClaimsRealtime();
