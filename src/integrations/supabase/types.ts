@@ -88,6 +88,44 @@ export type Database = {
           },
         ]
       }
+      claim_activity: {
+        Row: {
+          actor_id: string | null
+          claim_id: string
+          created_at: string
+          field: string
+          id: string
+          new_value: string | null
+          old_value: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          claim_id: string
+          created_at?: string
+          field: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          claim_id?: string
+          created_at?: string
+          field?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claim_activity_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       claim_documents: {
         Row: {
           claim_id: string
