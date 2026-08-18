@@ -17,14 +17,14 @@ import { Button } from "@/components/ui/button";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { supabase } from "@/integrations/supabase/client";
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: typeof Users; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/claims", label: "Claims queue", icon: Table2 },
   { to: "/admin/airlines", label: "Airlines & regulations", icon: BookOpen },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/payments", label: "Payments & payouts", icon: BadgeDollarSign },
   { to: "/admin/settings", label: "Settings", icon: Settings },
-] as const;
+];
 
 export function AdminShell({
   title,
@@ -76,11 +76,11 @@ export function AdminShell({
           <Logo />
         </div>
         <nav className="flex-1 space-y-1 p-3">
-          {NAV.map(({ to, label, icon: Icon, ...rest }) => (
+          {NAV.map(({ to, label, icon: Icon, exact }) => (
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact: "exact" in rest ? (rest as { exact?: boolean }).exact : false }}
+              activeOptions={{ exact: exact === true }}
               activeProps={{ className: "bg-white/15 text-navy-foreground" }}
               className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-navy-foreground/75 transition-colors hover:bg-white/10 hover:text-navy-foreground"
             >
