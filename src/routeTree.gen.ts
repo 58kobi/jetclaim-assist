@@ -23,6 +23,7 @@ import { Route as YourRightsRouteImport } from './routes/your-rights'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
+import { Route as AuthenticatedAdminClaimsIndexRouteImport } from './routes/_authenticated/admin.claims.index'
 import { Route as AuthenticatedAdminClaimsClaimIdRouteImport } from './routes/_authenticated/admin.claims.$claimId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -95,6 +96,12 @@ const AuthenticatedClaimsClaimIdRoute =
     path: '/claims/$claimId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminClaimsIndexRoute =
+  AuthenticatedAdminClaimsIndexRouteImport.update({
+    id: '/admin/claims/',
+    path: '/admin/claims/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminClaimsClaimIdRoute =
   AuthenticatedAdminClaimsClaimIdRouteImport.update({
     id: '/admin/claims/$claimId',
@@ -117,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
+  '/admin/claims/': typeof AuthenticatedAdminClaimsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -133,6 +141,7 @@ export interface FileRoutesByTo {
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,6 +160,7 @@ export interface FileRoutesById {
   '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
+  '/_authenticated/admin/claims/': typeof AuthenticatedAdminClaimsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/claims/$claimId'
     | '/admin/'
     | '/admin/claims/$claimId'
+    | '/admin/claims/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/claims/$claimId'
     | '/admin'
     | '/admin/claims/$claimId'
+    | '/admin/claims'
   id:
     | '__root__'
     | '/'
@@ -202,6 +214,7 @@ export interface FileRouteTypes {
     | '/_authenticated/claims/$claimId'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/claims/$claimId'
+    | '/_authenticated/admin/claims/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClaimsClaimIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/claims/': {
+      id: '/_authenticated/admin/claims/'
+      path: '/admin/claims'
+      fullPath: '/admin/claims/'
+      preLoaderRoute: typeof AuthenticatedAdminClaimsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/claims/$claimId': {
       id: '/_authenticated/admin/claims/$claimId'
       path: '/admin/claims/$claimId'
@@ -333,6 +353,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminClaimsClaimIdRoute: typeof AuthenticatedAdminClaimsClaimIdRoute
+  AuthenticatedAdminClaimsIndexRoute: typeof AuthenticatedAdminClaimsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -340,6 +361,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminClaimsClaimIdRoute: AuthenticatedAdminClaimsClaimIdRoute,
+  AuthenticatedAdminClaimsIndexRoute: AuthenticatedAdminClaimsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
