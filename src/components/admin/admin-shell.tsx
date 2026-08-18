@@ -17,14 +17,14 @@ import { Button } from "@/components/ui/button";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { supabase } from "@/integrations/supabase/client";
 
-const NAV: Array<{ to: string; label: string; icon: typeof Users; exact?: boolean }> = [
+const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/claims", label: "Claims queue", icon: Table2 },
-  { to: "/admin/airlines", label: "Airlines & regulations", icon: BookOpen },
-  { to: "/admin/users", label: "Users", icon: Users },
-  { to: "/admin/payments", label: "Payments & payouts", icon: BadgeDollarSign },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
-];
+  { to: "/admin/claims", label: "Claims queue", icon: Table2, exact: false },
+  { to: "/admin/airlines", label: "Airlines & regulations", icon: BookOpen, exact: false },
+  { to: "/admin/users", label: "Users", icon: Users, exact: false },
+  { to: "/admin/payments", label: "Payments & payouts", icon: BadgeDollarSign, exact: false },
+  { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
+] as const;
 
 export function AdminShell({
   title,
@@ -80,7 +80,7 @@ export function AdminShell({
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact: exact === true }}
+              activeOptions={{ exact }}
               activeProps={{ className: "bg-white/15 text-navy-foreground" }}
               className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-navy-foreground/75 transition-colors hover:bg-white/10 hover:text-navy-foreground"
             >
