@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { useAdminClaims } from "@/hooks/use-admin-claims";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, formatMoney, statusTone } from "@/lib/jetclaim";
