@@ -26,6 +26,7 @@ const RIGHTS = [
 ];
 
 function YourRights() {
+  const { isAdmin } = useIsAdmin();
   return (
     <PageShell>
       <PageHero title="Your Rights" subtitle="What you're entitled to when your flight goes wrong — without the legal jargon." />

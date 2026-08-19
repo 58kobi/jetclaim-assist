@@ -4,6 +4,7 @@ import { PageHero, PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { REGULATION_DETAILS, type RegulationDetail } from "@/lib/jetclaim";
+import { useIsAdmin } from "@/hooks/use-admin";
 
 export const Route = createFileRoute("/regulations")({
   head: () => ({
@@ -57,6 +58,7 @@ function Regulations() {
 }
 
 function RegulationCard({ reg }: { reg: RegulationDetail }) {
+  const { isAdmin } = useIsAdmin();
   return (
     <Card className="h-full border-border">
       <CardContent className="flex h-full flex-col gap-4 p-6">
@@ -75,13 +77,15 @@ function RegulationCard({ reg }: { reg: RegulationDetail }) {
         <Detail icon={<Globe2 className="size-4 text-brand-blue" />} label="Compensation" value={reg.compensation} highlight />
         <Detail icon={<CalendarClock className="size-4 text-brand-blue" />} label="Claim deadline" value={reg.deadline} />
 
-        <div className="mt-auto pt-2">
-          <Button asChild variant="outline" size="sm" className="gap-1.5">
-            <Link to="/claim">
-              Check if I qualify <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-        </div>
+        {isAdmin ? null : (
+          <div className="mt-auto pt-2">
+            <Button asChild variant="outline" size="sm" className="gap-1.5">
+              <Link to="/claim">
+                Check if I qualify <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
