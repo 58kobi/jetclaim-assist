@@ -378,10 +378,32 @@ function AdminClaimReview() {
                 </CardContent>
               </Card>
             ) : null}
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-navy">Activity log</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                {data?.activity.length ? (
+                  data.activity.map((a) => (
+                    <div key={a.id} className="border-l-2 border-brand-blue/40 pl-3">
+                      <p className="font-medium text-navy">
+                        {a.field.replace(/_/g, " ")}: {a.old_value ?? "—"} → {a.new_value ?? "—"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(a.created_at).toLocaleString("en-GB")}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-muted-foreground">No changes recorded yet.</p>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
-    </PageShell>
+    </AdminShell>
   );
 }
 
