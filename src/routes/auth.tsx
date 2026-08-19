@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { isAdminUser } from "@/hooks/use-admin";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -50,8 +51,10 @@ function AuthPage() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard", replace: true });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const admin = await isAdminUser(data.user.id);
+      navigate({ to: admin ? "/admin" : "/dashboard", replace: true });
     });
   }, [navigate]);
 
@@ -63,13 +66,15 @@ function AuthPage() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
-    setLoading(false);
+    const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
     if (error) {
+      setLoading(false);
       toast.error(error.message);
       return;
     }
-    navigate({ to: "/dashboard" });
+    const admin = data.user ? await isAdminUser(data.user.id) : false;
+    setLoading(false);
+    navigate({ to: admin ? "/admin" : "/dashboard", replace: true });
   }
 
   async function handleSignUp(e: React.FormEvent) {
