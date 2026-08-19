@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Download, FileText, Loader2, ShieldAlert } from "lucide-react";
-import { PageShell } from "@/components/site/page-shell";
+import { ArrowLeft, Download, FileText, Loader2 } from "lucide-react";
+import { AdminShell } from "@/components/admin/admin-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
+import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
 
 export const Route = createFileRoute("/_authenticated/admin/claims/$claimId")({
@@ -64,6 +65,7 @@ function AdminClaimReview() {
   const { claimId } = Route.useParams();
   const { isAdmin, loading } = useIsAdmin();
   const queryClient = useQueryClient();
+  useClaimsRealtime(claimId);
   const [saving, setSaving] = useState(false);
   const [letter, setLetter] = useState<string | null>(null);
 
@@ -91,7 +93,12 @@ function AdminClaimReview() {
         .select("*")
         .eq("claim_id", claimId)
         .order("created_at");
-      return { claim, client, docs: docs ?? [] };
+      const { data: activity } = await supabase
+        .from("claim_activity")
+        .select("*")
+        .eq("claim_id", claimId)
+        .order("created_at", { ascending: false });
+      return { claim, client, docs: docs ?? [], activity: activity ?? [] };
     },
   });
 
@@ -110,27 +117,14 @@ function AdminClaimReview() {
 
   if (loading || (isAdmin && isLoading)) {
     return (
-      <PageShell>
-        <div className="mx-auto max-w-5xl px-4 py-20">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
-        </div>
-      </PageShell>
+      <AdminShell title="Claim review">
+        <Loader2 className="size-6 animate-spin text-muted-foreground" />
+      </AdminShell>
     );
   }
 
-  if (!isAdmin) {
-    return (
-      <PageShell>
-        <div className="mx-auto max-w-md px-4 py-24 text-center">
-          <ShieldAlert className="mx-auto size-10 text-warning" />
-          <h1 className="mt-4 text-2xl font-extrabold text-navy">Restricted area</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Admin access only.</p>
-        </div>
-      </PageShell>
-    );
-  }
-
-  if (!claim) return null;
+  if (!isAdmin) return <AdminShell title="Claim review">{null}</AdminShell>;
+  if (!claim) return <AdminShell title="Claim review">Claim not found.</AdminShell>;
 
   async function save() {
     setSaving(true);
@@ -155,6 +149,7 @@ function AdminClaimReview() {
     toast.success("Claim updated.");
     queryClient.invalidateQueries({ queryKey: ["admin-claim", claimId] });
     queryClient.invalidateQueries({ queryKey: ["admin-claims"] });
+    queryClient.invalidateQueries({ queryKey: ["claims"] });
   }
 
   async function openDocument(path: string) {
@@ -180,18 +175,16 @@ function AdminClaimReview() {
   }
 
   return (
-    <PageShell>
-      <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-        <Link to="/admin" className="inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline">
+    <AdminShell
+      title={`${claim.airline_name} · ${claim.flight_number}`}
+      subtitle={`Reference ${claim.reference}`}
+    >
+      <div className="mx-auto max-w-6xl">
+        <Link to="/admin/claims" className="inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline">
           <ArrowLeft className="size-4" /> Back to queue
         </Link>
 
-        <h1 className="mt-4 text-3xl font-extrabold text-navy">
-          {claim.airline_name} · {claim.flight_number}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">Reference {claim.reference}</p>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
           <div className="space-y-6">
             <Card>
               <CardHeader>
