@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, Mail, Search, Wallet } from "lucide-react";
 import { PageHero, PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
+import { useIsAdmin } from "@/hooks/use-admin";
 import {
   Accordion,
   AccordionContent,
@@ -52,6 +53,7 @@ const FAQS = [
 ];
 
 function HowItWorks() {
+  const { isAdmin } = useIsAdmin();
   return (
     <PageShell>
       <PageHero title="How It Works" subtitle="Compensation in 4 simple steps — we handle the airline, you handle the packing." />
@@ -81,9 +83,11 @@ function HowItWorks() {
           ))}
         </Accordion>
 
-        <Button asChild className="mt-10 bg-navy text-navy-foreground hover:bg-navy-deep">
-          <Link to="/claim">Start your claim</Link>
-        </Button>
+        {isAdmin ? null : (
+          <Button asChild className="mt-10 bg-navy text-navy-foreground hover:bg-navy-deep">
+            <Link to="/claim">Start your claim</Link>
+          </Button>
+        )}
       </section>
     </PageShell>
   );

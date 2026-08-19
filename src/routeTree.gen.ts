@@ -22,6 +22,10 @@ import { Route as RegulationsRouteImport } from './routes/regulations'
 import { Route as YourRightsRouteImport } from './routes/your-rights'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAirlinesRouteImport } from './routes/_authenticated/admin.airlines'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
 import { Route as AuthenticatedAdminClaimsIndexRouteImport } from './routes/_authenticated/admin.claims.index'
 import { Route as AuthenticatedAdminClaimsClaimIdRouteImport } from './routes/_authenticated/admin.claims.$claimId'
@@ -90,6 +94,29 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAirlinesRoute =
+  AuthenticatedAdminAirlinesRouteImport.update({
+    id: '/admin/airlines',
+    path: '/admin/airlines',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/admin/payments',
+    path: '/admin/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/admin/settings',
+    path: '/admin/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedClaimsClaimIdRoute =
   AuthenticatedClaimsClaimIdRouteImport.update({
     id: '/claims/$claimId',
@@ -121,6 +148,10 @@ export interface FileRoutesByFullPath {
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
@@ -138,6 +169,10 @@ export interface FileRoutesByTo {
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
@@ -157,6 +192,10 @@ export interface FileRoutesById {
   '/regulations': typeof RegulationsRoute
   '/your-rights': typeof YourRightsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/claims/$claimId': typeof AuthenticatedAdminClaimsClaimIdRoute
@@ -176,6 +215,10 @@ export interface FileRouteTypes {
     | '/regulations'
     | '/your-rights'
     | '/dashboard'
+    | '/admin/airlines'
+    | '/admin/payments'
+    | '/admin/settings'
+    | '/admin/users'
     | '/claims/$claimId'
     | '/admin/'
     | '/admin/claims/$claimId'
@@ -193,6 +236,10 @@ export interface FileRouteTypes {
     | '/regulations'
     | '/your-rights'
     | '/dashboard'
+    | '/admin/airlines'
+    | '/admin/payments'
+    | '/admin/settings'
+    | '/admin/users'
     | '/claims/$claimId'
     | '/admin'
     | '/admin/claims/$claimId'
@@ -211,6 +258,10 @@ export interface FileRouteTypes {
     | '/regulations'
     | '/your-rights'
     | '/_authenticated/dashboard'
+    | '/_authenticated/admin/airlines'
+    | '/_authenticated/admin/payments'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
     | '/_authenticated/claims/$claimId'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/claims/$claimId'
@@ -324,6 +375,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/airlines': {
+      id: '/_authenticated/admin/airlines'
+      path: '/admin/airlines'
+      fullPath: '/admin/airlines'
+      preLoaderRoute: typeof AuthenticatedAdminAirlinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/claims/$claimId': {
       id: '/_authenticated/claims/$claimId'
       path: '/claims/$claimId'
@@ -350,6 +429,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedAdminAirlinesRoute: typeof AuthenticatedAdminAirlinesRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminClaimsClaimIdRoute: typeof AuthenticatedAdminClaimsClaimIdRoute
@@ -358,6 +441,10 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedAdminAirlinesRoute: AuthenticatedAdminAirlinesRoute,
+  AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminClaimsClaimIdRoute: AuthenticatedAdminClaimsClaimIdRoute,
