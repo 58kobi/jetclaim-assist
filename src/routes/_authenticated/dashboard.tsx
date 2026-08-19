@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
+import { useAdminRedirect } from "@/components/admin/admin-redirect";
 import { statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
+  const adminGuard = useAdminRedirect();
   const { flash } = useClaimsRealtime();
   const { data: claims, isLoading } = useQuery({
     queryKey: ["claims"],
@@ -40,6 +42,8 @@ function Dashboard() {
     },
     refetchOnWindowFocus: true,
   });
+
+  if (adminGuard) return <PageShell>{adminGuard}</PageShell>;
 
   return (
     <PageShell>
