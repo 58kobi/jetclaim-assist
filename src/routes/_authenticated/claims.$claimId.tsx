@@ -67,6 +67,8 @@ function ClaimDetail() {
     },
   });
 
+  if (adminGuard) return <PageShell>{adminGuard}</PageShell>;
+
   if (isLoading || !claim) {
     return (
       <PageShell>
