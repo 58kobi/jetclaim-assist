@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
+import { useAdminRedirect } from "@/components/admin/admin-redirect";
 import {
   COMPLAINT_TIMELINE,
   REFUNDABLE_TIMELINE,
@@ -39,6 +40,7 @@ export const Route = createFileRoute("/_authenticated/claims/$claimId")({
 
 function ClaimDetail() {
   const { claimId } = Route.useParams();
+  const adminGuard = useAdminRedirect();
   const queryClient = useQueryClient();
   const { flash } = useClaimsRealtime(claimId);
 
