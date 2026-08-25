@@ -98,7 +98,12 @@ function AdminClaimReview() {
         .select("*")
         .eq("claim_id", claimId)
         .order("created_at", { ascending: false });
-      return { claim, client, docs: docs ?? [], activity: activity ?? [] };
+      const { data: noteRow } = await supabase
+        .from("claim_notes")
+        .select("notes")
+        .eq("claim_id", claimId)
+        .maybeSingle();
+      return { claim, client, docs: docs ?? [], activity: activity ?? [], notes: noteRow?.notes ?? "" };
     },
   });
 
@@ -112,8 +117,8 @@ function AdminClaimReview() {
     setFee(claim.jetclaim_fee_amount != null ? String(claim.jetclaim_fee_amount) : "");
     setRegulation(claim.regulation_code ?? "none");
     setStatus(claim.status);
-    setNotes(claim.internal_notes ?? "");
-  }, [claim]);
+    setNotes(data?.notes ?? "");
+  }, [claim, data?.notes]);
 
   if (loading || (isAdmin && isLoading)) {
     return (
@@ -137,10 +142,19 @@ function AdminClaimReview() {
         jetclaim_fee_amount: fee === "" ? null : Number(fee),
         regulation_code: regulation === "none" ? null : regulation,
         status,
-        internal_notes: notes,
         fee_status: fee === "" ? "not_set" : data!.claim.fee_status === "settled" ? "settled" : "pending",
       })
       .eq("id", claimId);
+    if (!error) {
+      const { error: notesError } = await supabase
+        .from("claim_notes")
+        .upsert({ claim_id: claimId, notes }, { onConflict: "claim_id" });
+      if (notesError) {
+        setSaving(false);
+        toast.error(notesError.message);
+        return;
+      }
+    }
     setSaving(false);
     if (error) {
       toast.error(error.message);
