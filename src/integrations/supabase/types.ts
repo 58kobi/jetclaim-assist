@@ -167,6 +167,35 @@ export type Database = {
           },
         ]
       }
+      claim_notes: {
+        Row: {
+          claim_id: string
+          created_at: string
+          notes: string
+          updated_at: string
+        }
+        Insert: {
+          claim_id: string
+          created_at?: string
+          notes?: string
+          updated_at?: string
+        }
+        Update: {
+          claim_id?: string
+          created_at?: string
+          notes?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claim_notes_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: true
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       claims: {
         Row: {
           actual_payout_received_at: string | null
@@ -183,7 +212,6 @@ export type Database = {
           flight_date: string
           flight_number: string
           id: string
-          internal_notes: string | null
           is_refundable: boolean
           issue_type: string
           jetclaim_fee_amount: number | null
@@ -208,7 +236,6 @@ export type Database = {
           flight_date: string
           flight_number: string
           id?: string
-          internal_notes?: string | null
           is_refundable?: boolean
           issue_type: string
           jetclaim_fee_amount?: number | null
@@ -233,7 +260,6 @@ export type Database = {
           flight_date?: string
           flight_number?: string
           id?: string
-          internal_notes?: string | null
           is_refundable?: boolean
           issue_type?: string
           jetclaim_fee_amount?: number | null
