@@ -10,7 +10,11 @@ export const Route = createFileRoute("/your-rights")({
       { name: "description", content: "Plain-language guide to your rights after a delayed, cancelled or overbooked flight, region by region." },
       { property: "og:title", content: "Your Air Passenger Rights" },
       { property: "og:description", content: "What you are owed after a flight disruption, explained simply." },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app/your-rights" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app/your-rights" }],
   }),
   component: YourRights,
 });

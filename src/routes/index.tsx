@@ -43,7 +43,11 @@ export const Route = createFileRoute("/")({
         content:
           "File a flight complaint and claim compensation or a refund under international aviation regulations.",
       },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app" }],
   }),
   component: Landing,
 });

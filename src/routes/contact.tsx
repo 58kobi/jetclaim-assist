@@ -16,7 +16,11 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with the JetClaim team about a flight complaint, an existing claim or a payout question." },
       { property: "og:title", content: "Contact JetClaim" },
       { property: "og:description", content: "Our claims team replies within 40 minutes, open Monday to Sunday." },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app/contact" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app/contact" }],
   }),
   component: Contact,
 });
