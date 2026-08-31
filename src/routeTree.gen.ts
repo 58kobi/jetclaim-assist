@@ -19,6 +19,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as RegulationsRouteImport } from './routes/regulations'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as YourRightsRouteImport } from './routes/your-rights'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -77,6 +78,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const RegulationsRoute = RegulationsRouteImport.update({
   id: '/regulations',
   path: '/regulations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const YourRightsRoute = YourRightsRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/regulations': typeof RegulationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/your-rights': typeof YourRightsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/how-it-works'
     | '/regulations'
+    | '/sitemap.xml'
     | '/your-rights'
     | '/dashboard'
     | '/admin/airlines'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/how-it-works'
     | '/regulations'
+    | '/sitemap.xml'
     | '/your-rights'
     | '/dashboard'
     | '/admin/airlines'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/how-it-works'
     | '/regulations'
+    | '/sitemap.xml'
     | '/your-rights'
     | '/_authenticated/dashboard'
     | '/_authenticated/admin/airlines'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   FaqsRoute: typeof FaqsRoute
   HowItWorksRoute: typeof HowItWorksRoute
   RegulationsRoute: typeof RegulationsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   YourRightsRoute: typeof YourRightsRoute
 }
 
@@ -352,6 +365,13 @@ declare module '@tanstack/react-router' {
       path: '/regulations'
       fullPath: '/regulations'
       preLoaderRoute: typeof RegulationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/your-rights': {
@@ -465,6 +485,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqsRoute: FaqsRoute,
   HowItWorksRoute: HowItWorksRoute,
   RegulationsRoute: RegulationsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   YourRightsRoute: YourRightsRoute,
 }
 export const routeTree = rootRouteImport
