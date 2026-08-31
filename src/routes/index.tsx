@@ -43,7 +43,11 @@ export const Route = createFileRoute("/")({
         content:
           "File a flight complaint and claim compensation or a refund under international aviation regulations.",
       },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app" }],
   }),
   component: Landing,
 });
@@ -106,6 +110,8 @@ function Landing() {
           alt="Passenger aircraft taking off at golden hour"
           width={1920}
           height={1088}
+          decoding="async"
+          fetchPriority="high"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
@@ -276,7 +282,10 @@ function Landing() {
       </section>
 
       {/* Trust bar */}
-      <section className="bg-navy py-14 text-navy-foreground">
+      <section className="bg-navy py-14 text-navy-foreground" aria-labelledby="why-jetclaim">
+        <h2 id="why-jetclaim" className="sr-only">
+          Why passengers choose JetClaim
+        </h2>
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-5">
           {TRUST.map((item) => (
             <div key={item.title}>

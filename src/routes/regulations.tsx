@@ -13,7 +13,11 @@ export const Route = createFileRoute("/regulations")({
       { name: "description", content: "All 8 passenger-rights regimes JetClaim works with: EU261, UK261, US DOT, Canada APPR, India DGCA, Brazil ANAC, Turkey SHY and the Montreal Convention." },
       { property: "og:title", content: "International Aviation Regulations We Cover" },
       { property: "og:description", content: "Trigger conditions, coverage, compensation amounts and claim deadlines across eight passenger-rights regimes." },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app/regulations" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app/regulations" }],
   }),
   component: Regulations,
 });

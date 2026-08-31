@@ -8,7 +8,11 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "JetClaim is an international flight complaint and compensation service fighting for passengers across every major aviation jurisdiction." },
       { property: "og:title", content: "About JetClaim" },
       { property: "og:description", content: "Who we are and why we fight for passengers." },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app/about" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app/about" }],
   }),
   component: About,
 });

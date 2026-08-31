@@ -429,7 +429,11 @@ function ClaimForm() {
                     {files.map((file, i) => (
                       <li key={`${file.name}-${i}`} className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
                         <span className="truncate">{file.name}</span>
-                        <button type="button" onClick={() => setFiles((p) => p.filter((_, idx) => idx !== i))}>
+                        <button
+                          type="button"
+                          aria-label={`Remove ${file.name}`}
+                          onClick={() => setFiles((p) => p.filter((_, idx) => idx !== i))}
+                        >
                           <Trash2 className="size-4 text-muted-foreground hover:text-destructive" />
                         </button>
                       </li>

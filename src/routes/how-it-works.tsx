@@ -17,7 +17,11 @@ export const Route = createFileRoute("/how-it-works")({
       { name: "description", content: "See how JetClaim takes your flight claim from submission to payout in four simple steps." },
       { property: "og:title", content: "How JetClaim Works" },
       { property: "og:description", content: "From claim to payout in four simple steps." },
+      { property: "og:url", content: "https://jetclaim-assist.lovable.app/how-it-works" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://jetclaim-assist.lovable.app/how-it-works" }],
   }),
   component: HowItWorks,
 });
