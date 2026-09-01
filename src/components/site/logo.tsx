@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Plane } from "lucide-react";
 import { cn } from "@/lib/utils";
+import markAsset from "@/assets/jetclaim-mark.png.asset.json";
 
 export function Logo({
   className,
@@ -13,14 +13,13 @@ export function Logo({
 }) {
   return (
     <Link to="/" className={cn("flex items-center gap-2.5", className)}>
-      <span
-        className={cn(
-          "flex size-10 items-center justify-center rounded-full",
-          invert ? "bg-navy-foreground/10 text-navy-foreground" : "bg-navy text-navy-foreground",
-        )}
-      >
-        <Plane className="size-5 -rotate-45" strokeWidth={2.2} />
-      </span>
+      <img
+        src={markAsset.url}
+        alt="JetClaim logo"
+        width={40}
+        height={40}
+        className="size-10 shrink-0 object-contain"
+      />
       <span className="leading-none">
         <span
           className={cn(
