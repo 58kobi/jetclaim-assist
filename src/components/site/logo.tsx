@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Plane } from "lucide-react";
 import { cn } from "@/lib/utils";
+import markAsset from "@/assets/jetclaim-mark.png.asset.json";
 
 export function Logo({
   className,
