@@ -131,6 +131,8 @@ function AdminClaimReview() {
   if (!isAdmin) return <AdminShell title="Claim review">{null}</AdminShell>;
   if (!claim) return <AdminShell title="Claim review">Claim not found.</AdminShell>;
 
+  const suggestion = matchRegulation(claim);
+
   async function save() {
     setSaving(true);
     const { error } = await supabase
