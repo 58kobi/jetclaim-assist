@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { PageHero, PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +48,6 @@ function Contact() {
       <section className="mx-auto grid max-w-5xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4 text-sm text-muted-foreground">
           <p className="flex items-center gap-2"><Mail className="size-4 text-brand-blue" /> <a href="mailto:jetclaimsupport@gmail.com" className="hover:text-brand-blue hover:underline">jetclaimsupport@gmail.com</a></p>
-          <p className="flex items-center gap-2"><Phone className="size-4 text-brand-blue" /> +44 20 7946 0123</p>
           <p className="flex items-center gap-2"><MapPin className="size-4 text-brand-blue" /> London · Berlin · Toronto</p>
         </div>
 
