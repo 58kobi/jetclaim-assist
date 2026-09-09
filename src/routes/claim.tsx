@@ -204,6 +204,12 @@ function ClaimForm() {
           arrival_airport: form.arrival_airport,
           issue_type: form.issue_type,
           description: form.description || null,
+          regulation_code: matchRegulation({
+            airline_name: form.airline_name,
+            departure_airport: form.departure_airport,
+            arrival_airport: form.arrival_airport,
+            issue_type: form.issue_type,
+          }).code,
         })
         .select("id,reference")
         .single();
