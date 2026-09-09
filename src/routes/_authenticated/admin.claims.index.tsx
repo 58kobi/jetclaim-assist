@@ -14,7 +14,18 @@ import {
 import { useAdminClaims } from "@/hooks/use-admin-claims";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, formatMoney, statusTone } from "@/lib/jetclaim";
+import { matchRegulation } from "@/lib/regulation-match";
 import { cn } from "@/lib/utils";
+
+function effectiveRegulation(claim: {
+  regulation_code: string | null;
+  airline_name: string;
+  departure_airport: string;
+  arrival_airport: string;
+  issue_type: string;
+}) {
+  return claim.regulation_code ?? matchRegulation(claim).code;
+}
 
 export const Route = createFileRoute("/_authenticated/admin/claims/")({
   head: () => ({
