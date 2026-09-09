@@ -25,7 +25,7 @@ function Submitted() {
         <CheckCircle2 className="mx-auto size-14 text-success" />
         <h1 className="mt-6 text-3xl font-extrabold text-navy">Claim Submitted</h1>
         <p className="mt-3 text-muted-foreground">
-          Thank you. Our team is reviewing your case and will contact the airline on your behalf.
+          Your claim has been submitted. Our team is reviewing your case and will contact you soon.
         </p>
         {ref ? (
           <p className="mt-6 rounded-lg border border-border bg-surface px-4 py-3 text-sm">
