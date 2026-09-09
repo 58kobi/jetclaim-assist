@@ -115,7 +115,7 @@ function AdminClaimReview() {
     setAmount(claim.compensation_amount != null ? String(claim.compensation_amount) : "");
     setCurrency(claim.compensation_currency ?? "EUR");
     setFee(claim.jetclaim_fee_amount != null ? String(claim.jetclaim_fee_amount) : "");
-    setRegulation(claim.regulation_code ?? "none");
+    setRegulation(claim.regulation_code ?? matchRegulation(claim).code ?? "none");
     setStatus(claim.status);
     setNotes(data?.notes ?? "");
   }, [claim, data?.notes]);
