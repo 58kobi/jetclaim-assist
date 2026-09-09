@@ -232,12 +232,7 @@ function ClaimDetail() {
               <BankDetailsCard claimId={claimId} existing={bank} payoutWindow={claim.expected_payout_window} />
             ) : null}
           </>
-        ) : (
-          <p className="mt-6 rounded-lg border border-border bg-surface p-4 text-sm text-muted-foreground">
-            This case is registered as a service complaint, so there are no compensation or payout
-            steps. We'll update you as soon as the airline responds.
-          </p>
-        )}
+        ) : null}
       </div>
     </PageShell>
   );
