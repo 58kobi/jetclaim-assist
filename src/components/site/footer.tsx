@@ -1,6 +1,18 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 import { Logo } from "./logo";
+
+const socialLinks = [
+  { Icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+  {
+    Icon: Instagram,
+    href: "https://www.instagram.com/jetclaim.online?stkn=MXNteWE0MnA3eHhwbw%3D%3D&utm_source=qr",
+    label: "Instagram",
+  },
+  { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { Icon: Mail, href: "mailto:jetclaimsupport@gmail.com", label: "Email" },
+];
 
 export function SiteFooter() {
   return (
@@ -13,13 +25,17 @@ export function SiteFooter() {
             and refunds they are entitled to under international aviation regulations.
           </p>
           <div className="mt-5 flex gap-3">
-            {[Twitter, Facebook, Instagram, Linkedin].map((Icon, i) => (
-              <span
-                key={i}
-                className="flex size-9 items-center justify-center rounded-full bg-navy-foreground/10 text-navy-foreground/80"
+            {socialLinks.map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex size-9 items-center justify-center rounded-full bg-navy-foreground/10 text-navy-foreground/80 transition-colors hover:bg-navy-foreground/20 hover:text-navy-foreground"
               >
                 <Icon className="size-4" />
-              </span>
+              </a>
             ))}
           </div>
         </div>
