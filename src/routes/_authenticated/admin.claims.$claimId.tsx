@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
+import { matchRegulation } from "@/lib/regulation-match";
 
 export const Route = createFileRoute("/_authenticated/admin/claims/$claimId")({
   head: () => ({
