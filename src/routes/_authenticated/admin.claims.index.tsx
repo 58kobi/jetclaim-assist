@@ -196,7 +196,20 @@ function AdminQueue() {
                         </div>
                       </td>
                       <td className="px-4 py-3">{c.issue_type}</td>
-                      <td className="px-4 py-3">{c.regulation_code ?? "—"}</td>
+                      <td className="px-4 py-3">
+                        {c.regulation_code ?? (
+                          effectiveRegulation(c) ? (
+                            <span className="inline-flex items-center gap-1 text-muted-foreground">
+                              {effectiveRegulation(c)}
+                              <span className="rounded-full border border-brand-blue/30 bg-brand-blue/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-brand-blue">
+                                auto
+                              </span>
+                            </span>
+                          ) : (
+                            "—"
+                          )
+                        )}
+                      </td>
                       <td className="px-4 py-3">
                         {formatMoney(
                           c.compensation_amount != null ? Number(c.compensation_amount) : null,
