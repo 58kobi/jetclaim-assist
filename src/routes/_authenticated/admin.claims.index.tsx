@@ -14,7 +14,18 @@ import {
 import { useAdminClaims } from "@/hooks/use-admin-claims";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, formatMoney, statusTone } from "@/lib/jetclaim";
+import { matchRegulation } from "@/lib/regulation-match";
 import { cn } from "@/lib/utils";
+
+function effectiveRegulation(claim: {
+  regulation_code: string | null;
+  airline_name: string;
+  departure_airport: string;
+  arrival_airport: string;
+  issue_type: string;
+}) {
+  return claim.regulation_code ?? matchRegulation(claim).code;
+}
 
 export const Route = createFileRoute("/_authenticated/admin/claims/")({
   head: () => ({
@@ -62,7 +73,9 @@ function AdminQueue() {
     }
     if (status !== "all") list = list.filter((c) => c.status === status);
     if (regulation !== "all")
-      list = list.filter((c) => (regulation === "none" ? !c.regulation_code : c.regulation_code === regulation));
+      list = list.filter((c) =>
+        regulation === "none" ? !effectiveRegulation(c) : effectiveRegulation(c) === regulation,
+      );
     if (airline !== "all") list = list.filter((c) => c.airline_name === airline);
     if (kind !== "all") list = list.filter((c) => (kind === "refundable" ? c.is_refundable : !c.is_refundable));
     if (from) list = list.filter((c) => c.flight_date >= from);
@@ -183,7 +196,20 @@ function AdminQueue() {
                         </div>
                       </td>
                       <td className="px-4 py-3">{c.issue_type}</td>
-                      <td className="px-4 py-3">{c.regulation_code ?? "—"}</td>
+                      <td className="px-4 py-3">
+                        {c.regulation_code ?? (
+                          effectiveRegulation(c) ? (
+                            <span className="inline-flex items-center gap-1 text-muted-foreground">
+                              {effectiveRegulation(c)}
+                              <span className="rounded-full border border-brand-blue/30 bg-brand-blue/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-brand-blue">
+                                auto
+                              </span>
+                            </span>
+                          ) : (
+                            "—"
+                          )
+                        )}
+                      </td>
                       <td className="px-4 py-3">
                         {formatMoney(
                           c.compensation_amount != null ? Number(c.compensation_amount) : null,

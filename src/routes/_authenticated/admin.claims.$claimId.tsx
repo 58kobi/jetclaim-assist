@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Download, FileText, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, FileText, Loader2, Sparkles } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
+import { matchRegulation } from "@/lib/regulation-match";
 
 export const Route = createFileRoute("/_authenticated/admin/claims/$claimId")({
   head: () => ({
@@ -115,7 +116,7 @@ function AdminClaimReview() {
     setAmount(claim.compensation_amount != null ? String(claim.compensation_amount) : "");
     setCurrency(claim.compensation_currency ?? "EUR");
     setFee(claim.jetclaim_fee_amount != null ? String(claim.jetclaim_fee_amount) : "");
-    setRegulation(claim.regulation_code ?? "none");
+    setRegulation(claim.regulation_code ?? matchRegulation(claim).code ?? "none");
     setStatus(claim.status);
     setNotes(data?.notes ?? "");
   }, [claim, data?.notes]);
@@ -130,6 +131,8 @@ function AdminClaimReview() {
 
   if (!isAdmin) return <AdminShell title="Claim review">{null}</AdminShell>;
   if (!claim) return <AdminShell title="Claim review">Claim not found.</AdminShell>;
+
+  const suggestion = matchRegulation(claim);
 
   async function save() {
     setSaving(true);
@@ -335,6 +338,39 @@ function AdminClaimReview() {
                     </Select>
                   </div>
                 </div>
+
+                <div className="rounded-md border border-brand-blue/30 bg-brand-blue/5 p-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Sparkles className="size-4 text-brand-blue" />
+                    <p className="text-sm font-semibold text-navy">
+                      Automatic match:{" "}
+                      {suggestion.code
+                        ? (REGULATION_BADGES.find((r) => r.code === suggestion.code)?.label ?? suggestion.code)
+                        : "No confident match"}
+                    </p>
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs capitalize text-muted-foreground">
+                      {suggestion.confidence} confidence
+                    </span>
+                  </div>
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+                    {suggestion.reasons.map((r) => (
+                      <li key={r}>{r}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {suggestion.code && suggestion.code !== regulation ? (
+                      <Button type="button" size="sm" variant="outline" onClick={() => setRegulation(suggestion.code!)}>
+                        Apply {suggestion.code}
+                      </Button>
+                    ) : null}
+                    {suggestion.alternatives.map((alt) => (
+                      <Button key={alt} type="button" size="sm" variant="ghost" onClick={() => setRegulation(alt)}>
+                        Use {alt} instead
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
 
                 <div className="space-y-1.5">
                   <Label htmlFor="status">Status</Label>

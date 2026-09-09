@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { matchRegulation } from "@/lib/regulation-match";
 import { ISSUE_TYPES, AIRLINE_GROUPS } from "@/lib/jetclaim";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { cn } from "@/lib/utils";
@@ -203,6 +204,12 @@ function ClaimForm() {
           arrival_airport: form.arrival_airport,
           issue_type: form.issue_type,
           description: form.description || null,
+          regulation_code: matchRegulation({
+            airline_name: form.airline_name,
+            departure_airport: form.departure_airport,
+            arrival_airport: form.arrival_airport,
+            issue_type: form.issue_type,
+          }).code,
         })
         .select("id,reference")
         .single();
