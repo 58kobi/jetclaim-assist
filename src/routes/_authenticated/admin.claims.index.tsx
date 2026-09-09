@@ -62,7 +62,9 @@ function AdminQueue() {
     }
     if (status !== "all") list = list.filter((c) => c.status === status);
     if (regulation !== "all")
-      list = list.filter((c) => (regulation === "none" ? !c.regulation_code : c.regulation_code === regulation));
+      list = list.filter((c) =>
+        regulation === "none" ? !effectiveRegulation(c) : effectiveRegulation(c) === regulation,
+      );
     if (airline !== "all") list = list.filter((c) => c.airline_name === airline);
     if (kind !== "all") list = list.filter((c) => (kind === "refundable" ? c.is_refundable : !c.is_refundable));
     if (from) list = list.filter((c) => c.flight_date >= from);
