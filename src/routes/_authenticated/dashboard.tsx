@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, Loader2, Mail, Plane } from "lucide-react";
 import { PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,42 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
 });
 
+function greetingFor(date: Date) {
+  const h = date.getHours();
+  if (h < 12) return "Good morning";
+  if (h < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+function useGreeting() {
+  const [greeting, setGreeting] = useState<string | null>(null);
+  useEffect(() => {
+    const tick = () => setGreeting(greetingFor(new Date()));
+    tick();
+    const id = window.setInterval(tick, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+  return greeting;
+}
+
 function Dashboard() {
   const adminGuard = useAdminRedirect();
   const { flash } = useClaimsRealtime();
+  const greeting = useGreeting();
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", auth.user!.id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+  const firstName = (profile?.full_name ?? "").trim().split(/\s+/)[0] ?? "";
   const { data: claims, isLoading } = useQuery({
     queryKey: ["claims"],
     queryFn: async () => {
@@ -49,7 +82,15 @@ function Dashboard() {
     <PageShell>
       <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-3xl font-extrabold text-navy">Your Dashboard</h1>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
+              {greeting ? `${greeting}${firstName ? `, ${firstName}` : ""}` : "\u00A0"}
+            </p>
+            <h1 className="text-3xl font-extrabold text-navy">Claim Command Centre</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Every claim you've filed with JetClaim, tracked in real time.
+            </p>
+          </div>
           <Button asChild className="gap-2 bg-navy text-navy-foreground hover:bg-navy-deep">
             <Link to="/claim">New Claim <ArrowRight className="size-4" /></Link>
           </Button>
