@@ -525,3 +525,123 @@ function Row({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+function AirportField({
+  id,
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? AIRPORT_GROUPS.flatMap((g) => g.airports).filter(
+        (a) =>
+          a.name.toLowerCase().includes(q) ||
+          a.city.toLowerCase().includes(q) ||
+          a.iata.toLowerCase().includes(q),
+      )
+    : null;
+
+  return (
+    <div className="space-y-1.5" ref={ref}>
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        placeholder={placeholder}
+        maxLength={60}
+        value={value}
+        onFocus={() => setOpen(true)}
+        onChange={(e) => {
+          setOpen(true);
+          setQuery(e.target.value);
+          onChange(e.target.value);
+        }}
+      />
+      {open ? (
+        <div className="max-h-64 overflow-auto rounded-md border border-border bg-popover shadow-sm">
+          {q ? (
+            <div className="border-b border-border px-3 py-2">
+              <button
+                type="button"
+                className="block w-full text-left text-sm font-medium text-navy hover:text-brand-blue"
+                onClick={() => {
+                  onChange(query);
+                  setQuery("");
+                  setOpen(false);
+                }}
+              >
+                Use “{query}”
+              </button>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Can't see your airport? Type it manually.
+              </p>
+            </div>
+          ) : null}
+          {filtered ? (
+            filtered.length ? (
+              <div className="py-1">
+                {filtered.map((a) => (
+                  <AirportOption key={a.iata} airport={a} onSelect={() => {
+                    onChange(`${a.city} (${a.iata})`);
+                    setQuery("");
+                    setOpen(false);
+                  }} />
+                ))}
+              </div>
+            ) : (
+              <p className="px-3 py-2 text-xs text-muted-foreground">No matches — type it manually above.</p>
+            )
+          ) : (
+            AIRPORT_GROUPS.map((group) => (
+              <div key={group.label} className="border-b border-border last:border-0">
+                <div className="bg-muted/40 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  {group.label}
+                </div>
+                <div className="py-1">
+                  {group.airports.map((a) => (
+                    <AirportOption key={a.iata} airport={a} onSelect={() => {
+                      onChange(`${a.city} (${a.iata})`);
+                      setOpen(false);
+                    }} />
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function AirportOption({ airport, onSelect }: { airport: { name: string; iata: string; city: string }; onSelect: () => void }) {
+  return (
+    <button
+      type="button"
+      className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent/10"
+      onClick={onSelect}
+    >
+      <span>{airport.name} · {airport.city}</span>
+      <span className="text-xs text-muted-foreground">{airport.iata}</span>
+    </button>
+  );
+}
