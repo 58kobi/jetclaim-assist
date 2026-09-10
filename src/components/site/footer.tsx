@@ -3,7 +3,7 @@ import { Facebook, Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 import { Logo } from "./logo";
 
 const socialLinks = [
-  { Icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { Icon: Twitter, href: "https://x.com/ameliakatep?s=11", label: "Twitter" },
   { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
   {
     Icon: Instagram,
