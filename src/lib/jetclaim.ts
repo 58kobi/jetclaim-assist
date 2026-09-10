@@ -135,6 +135,81 @@ export const AIRLINE_GROUPS = [
   },
 ];
 
+export type Airport = { name: string; iata: string; city: string };
+
+export const AIRPORT_GROUPS: { label: string; airports: Airport[] }[] = [
+  {
+    label: "United Kingdom & Ireland",
+    airports: [
+      { name: "London Heathrow", iata: "LHR", city: "London" },
+      { name: "London Gatwick", iata: "LGW", city: "London" },
+      { name: "Manchester", iata: "MAN", city: "Manchester" },
+      { name: "Dublin", iata: "DUB", city: "Dublin" },
+    ],
+  },
+  {
+    label: "Europe",
+    airports: [
+      { name: "Charles de Gaulle", iata: "CDG", city: "Paris" },
+      { name: "Amsterdam Schiphol", iata: "AMS", city: "Amsterdam" },
+      { name: "Frankfurt", iata: "FRA", city: "Frankfurt" },
+      { name: "Madrid Barajas", iata: "MAD", city: "Madrid" },
+      { name: "Rome Fiumicino", iata: "FCO", city: "Rome" },
+      { name: "Istanbul", iata: "IST", city: "Istanbul" },
+      { name: "Zurich", iata: "ZRH", city: "Zurich" },
+      { name: "Lisbon", iata: "LIS", city: "Lisbon" },
+    ],
+  },
+  {
+    label: "United States & Canada",
+    airports: [
+      { name: "John F. Kennedy", iata: "JFK", city: "New York" },
+      { name: "Los Angeles", iata: "LAX", city: "Los Angeles" },
+      { name: "Chicago O'Hare", iata: "ORD", city: "Chicago" },
+      { name: "Hartsfield-Jackson", iata: "ATL", city: "Atlanta" },
+      { name: "Miami", iata: "MIA", city: "Miami" },
+      { name: "Toronto Pearson", iata: "YYZ", city: "Toronto" },
+      { name: "Vancouver", iata: "YVR", city: "Vancouver" },
+    ],
+  },
+  {
+    label: "Middle East / Gulf",
+    airports: [
+      { name: "Dubai", iata: "DXB", city: "Dubai" },
+      { name: "Hamad", iata: "DOH", city: "Doha" },
+      { name: "Abu Dhabi", iata: "AUH", city: "Abu Dhabi" },
+    ],
+  },
+  {
+    label: "Africa",
+    airports: [
+      { name: "Jomo Kenyatta", iata: "NBO", city: "Nairobi" },
+      { name: "Bole", iata: "ADD", city: "Addis Ababa" },
+      { name: "OR Tambo", iata: "JNB", city: "Johannesburg" },
+      { name: "Murtala Muhammed", iata: "LOS", city: "Lagos" },
+      { name: "Cairo", iata: "CAI", city: "Cairo" },
+    ],
+  },
+  {
+    label: "Asia-Pacific",
+    airports: [
+      { name: "Singapore Changi", iata: "SIN", city: "Singapore" },
+      { name: "Hong Kong", iata: "HKG", city: "Hong Kong" },
+      { name: "Tokyo Narita", iata: "NRT", city: "Tokyo" },
+      { name: "Delhi Indira Gandhi", iata: "DEL", city: "New Delhi" },
+      { name: "Sydney", iata: "SYD", city: "Sydney" },
+    ],
+  },
+  {
+    label: "South America",
+    airports: [
+      { name: "São Paulo Guarulhos", iata: "GRU", city: "São Paulo" },
+      { name: "Ministro Pistarini", iata: "EZE", city: "Buenos Aires" },
+      { name: "El Dorado", iata: "BOG", city: "Bogotá" },
+    ],
+  },
+];
+
 export const REGULATION_BADGES = [
   { code: "EU261", flag: "🇪🇺", label: "EU261", detail: "Up to €600 — EU Regulation EC 261/2004" },
   { code: "UK261", flag: "🇬🇧", label: "UK261", detail: "Up to £520 — UK Regulation" },
