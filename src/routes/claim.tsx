@@ -356,14 +356,20 @@ function ClaimForm() {
                     <Label htmlFor="fd">Date of flight</Label>
                     <Input id="fd" type="date" value={form.flight_date} onChange={(e) => set("flight_date", e.target.value)} />
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="dep">Departure airport</Label>
-                    <Input id="dep" placeholder="e.g. London Heathrow (LHR)" maxLength={60} value={form.departure_airport} onChange={(e) => set("departure_airport", e.target.value)} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="arr">Arrival airport</Label>
-                    <Input id="arr" placeholder="e.g. Nairobi (NBO)" maxLength={60} value={form.arrival_airport} onChange={(e) => set("arrival_airport", e.target.value)} />
-                  </div>
+                  <AirportField
+                    id="dep"
+                    label="Departure airport"
+                    placeholder="e.g. London Heathrow (LHR)"
+                    value={form.departure_airport}
+                    onChange={(v) => set("departure_airport", v)}
+                  />
+                  <AirportField
+                    id="arr"
+                    label="Arrival airport"
+                    placeholder="e.g. Nairobi (NBO)"
+                    value={form.arrival_airport}
+                    onChange={(v) => set("arrival_airport", v)}
+                  />
                 </div>
               </>
             ) : null}
