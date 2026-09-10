@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { matchRegulation } from "@/lib/regulation-match";
-import { ISSUE_TYPES, AIRLINE_GROUPS } from "@/lib/jetclaim";
+import { ISSUE_TYPES, AIRLINE_GROUPS, AIRPORT_GROUPS } from "@/lib/jetclaim";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { cn } from "@/lib/utils";
 
