@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
+import { PaymentAppPicker, PaymentAppLinks } from "@/components/PaymentAppFlow";
 import { useAdminRedirect } from "@/components/admin/admin-redirect";
 import {
   COMPLAINT_TIMELINE,
@@ -163,6 +164,35 @@ function ClaimDetail() {
               <CardTitle className="text-navy">What you told us</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">{claim.description}</CardContent>
+          </Card>
+        ) : null}
+
+        {claim.status === "Forwarded to Airline" && !claim.payment_app ? (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="text-navy">Choose your payment app</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Select up to two apps you will download, and tell us which one you will pay with.
+              </p>
+              <PaymentAppPicker caseId={claimId} />
+            </CardContent>
+          </Card>
+        ) : null}
+
+        {claim.payment_app ? (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="text-navy">Your payment apps</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PaymentAppLinks
+                caseId={claimId}
+                apps={claim.apps_selected ?? []}
+                payWith={claim.payment_app}
+              />
+            </CardContent>
           </Card>
         ) : null}
 

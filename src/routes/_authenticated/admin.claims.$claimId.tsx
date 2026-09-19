@@ -22,6 +22,11 @@ import { useIsAdmin } from "@/hooks/use-admin";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
 import { matchRegulation } from "@/lib/regulation-match";
+import { PAYMENT_APPS, type AppKey } from "@/lib/paymentApps";
+
+function appNames(keys: string[] | null | undefined) {
+  return (keys ?? []).map((k) => PAYMENT_APPS[k as AppKey]?.name ?? k).join(", ");
+}
 
 export const Route = createFileRoute("/_authenticated/admin/claims/$claimId")({
   head: () => ({
@@ -228,6 +233,33 @@ function AdminClaimReview() {
                     {claim.description || "No description provided."}
                   </p>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-navy">Payment apps</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm">
+                <Row
+                  label="Apps selected"
+                  value={appNames(claim.apps_selected) || "Not chosen yet"}
+                />
+                <Row label="Payment app" value={appNames(claim.payment_app ? [claim.payment_app] : []) || "Not chosen yet"} />
+                <Row
+                  label="Device"
+                  value={
+                    claim.device_platform === "ios"
+                      ? "iPhone"
+                      : claim.device_platform === "android"
+                        ? "Android"
+                        : "Not chosen yet"
+                  }
+                />
+                <Row
+                  label="Download tapped"
+                  value={appNames(claim.download_clicked) || "Not chosen yet"}
+                />
               </CardContent>
             </Card>
 

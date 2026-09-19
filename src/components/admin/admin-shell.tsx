@@ -3,6 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   BadgeDollarSign,
+  Bell,
   BookOpen,
   LayoutDashboard,
   Loader2,
@@ -16,6 +17,64 @@ import { Logo } from "@/components/site/logo";
 import { Button } from "@/components/ui/button";
 import { useIsAdmin } from "@/hooks/use-admin";
 import { supabase } from "@/integrations/supabase/client";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useAdminAppNotifications } from "@/hooks/useAdminAppNotifications";
+
+function relativeTime(iso: string) {
+  const diff = Math.round((Date.now() - new Date(iso).getTime()) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
+
+function NotificationBell() {
+  const { notifications, unreadCount, markRead, markAllRead } = useAdminAppNotifications();
+  const navigate = useNavigate();
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="icon" className="relative" aria-label="Notifications">
+          <Bell className="size-4" />
+          {unreadCount > 0 ? (
+            <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-brand-blue text-[10px] font-bold text-white">
+              {unreadCount}
+            </span>
+          ) : null}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-80 p-0">
+        <div className="flex items-center justify-between border-b border-border px-3 py-2">
+          <span className="text-sm font-semibold text-navy">Notifications</span>
+          <button type="button" onClick={markAllRead} className="text-xs text-brand-blue hover:underline">
+            Mark all read
+          </button>
+        </div>
+        <div className="max-h-80 overflow-y-auto">
+          {notifications.length ? (
+            notifications.map((n) => (
+              <button
+                key={n.id}
+                type="button"
+                onClick={() => {
+                  markRead(n.id);
+                  navigate({ to: "/admin/claims/$claimId", params: { claimId: n.case_id } });
+                }}
+                className="block w-full border-b border-border px-3 py-2 text-left hover:bg-muted/50"
+              >
+                <p className="text-sm text-navy">{n.message}</p>
+                <p className="text-xs text-muted-foreground">{relativeTime(n.created_at)}</p>
+              </button>
+            ))
+          ) : (
+            <p className="px-3 py-6 text-center text-sm text-muted-foreground">No notifications.</p>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -107,9 +166,12 @@ export function AdminShell({
               <h1 className="text-2xl font-extrabold text-navy">{title}</h1>
               {subtitle ? <p className="text-sm text-muted-foreground">{subtitle}</p> : null}
             </div>
-            <span className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-muted-foreground">
-              Admin console
-            </span>
+            <div className="flex items-center gap-3">
+              <NotificationBell />
+              <span className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-muted-foreground">
+                Admin console
+              </span>
+            </div>
           </div>
           <nav className="flex gap-1 overflow-x-auto border-t border-border px-2 py-2 lg:hidden">
             {NAV.map(({ to, label }) => (
