@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_notifications: {
+        Row: {
+          case_id: string
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          type: string
+        }
+        Insert: {
+          case_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          type: string
+        }
+        Update: {
+          case_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_notifications_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       airlines: {
         Row: {
           country: string | null
@@ -200,6 +235,7 @@ export type Database = {
         Row: {
           actual_payout_received_at: string | null
           airline_name: string
+          apps_selected: string[]
           arrival_airport: string
           bank_details_submitted_at: string | null
           compensation_amount: number | null
@@ -207,6 +243,8 @@ export type Database = {
           created_at: string
           departure_airport: string
           description: string | null
+          device_platform: string | null
+          download_clicked: string[]
           expected_payout_window: string | null
           fee_status: string
           flight_date: string
@@ -215,6 +253,7 @@ export type Database = {
           is_refundable: boolean
           issue_type: string
           jetclaim_fee_amount: number | null
+          payment_app: string | null
           reference: string
           regulation_code: string | null
           status: string
@@ -224,6 +263,7 @@ export type Database = {
         Insert: {
           actual_payout_received_at?: string | null
           airline_name: string
+          apps_selected?: string[]
           arrival_airport: string
           bank_details_submitted_at?: string | null
           compensation_amount?: number | null
@@ -231,6 +271,8 @@ export type Database = {
           created_at?: string
           departure_airport: string
           description?: string | null
+          device_platform?: string | null
+          download_clicked?: string[]
           expected_payout_window?: string | null
           fee_status?: string
           flight_date: string
@@ -239,6 +281,7 @@ export type Database = {
           is_refundable?: boolean
           issue_type: string
           jetclaim_fee_amount?: number | null
+          payment_app?: string | null
           reference?: string
           regulation_code?: string | null
           status?: string
@@ -248,6 +291,7 @@ export type Database = {
         Update: {
           actual_payout_received_at?: string | null
           airline_name?: string
+          apps_selected?: string[]
           arrival_airport?: string
           bank_details_submitted_at?: string | null
           compensation_amount?: number | null
@@ -255,6 +299,8 @@ export type Database = {
           created_at?: string
           departure_airport?: string
           description?: string | null
+          device_platform?: string | null
+          download_clicked?: string[]
           expected_payout_window?: string | null
           fee_status?: string
           flight_date?: string
@@ -263,6 +309,7 @@ export type Database = {
           is_refundable?: boolean
           issue_type?: string
           jetclaim_fee_amount?: number | null
+          payment_app?: string | null
           reference?: string
           regulation_code?: string | null
           status?: string
@@ -360,12 +407,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      app_display_name: { Args: { _key: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      log_app_download_click: {
+        Args: { _app: string; _case_id: string }
+        Returns: undefined
+      }
+      set_payment_apps: {
+        Args: {
+          _apps: string[]
+          _case_id: string
+          _payment_app: string
+          _platform: string
+        }
+        Returns: undefined
       }
     }
     Enums: {
