@@ -59,7 +59,7 @@ export function PaymentAppPicker({ caseId }: { caseId: string }) {
 
       {selected.length > 0 ? (
         <div className="space-y-2">
-          <p className="text-sm font-semibold text-navy">Which one will you make the payment with?</p>
+          <p className="text-sm font-semibold text-navy">Which one will you receive the payment with?</p>
           <RadioGroup value={payWith} onValueChange={(v) => setPayWith(v as AppKey)} className="space-y-2">
             {selected.map((app) => (
               <div key={app} className="flex items-center gap-3">
@@ -84,15 +84,7 @@ export function PaymentAppPicker({ caseId }: { caseId: string }) {
   );
 }
 
-export function PaymentAppLinks({
-  caseId,
-  apps,
-  payWith,
-}: {
-  caseId: string;
-  apps: string[];
-  payWith: string;
-}) {
+export function PaymentAppLinks({ caseId, apps, payWith }: { caseId: string; apps: string[]; payWith: string }) {
   const platform = detectPlatform();
   const storeLabel = platform === "ios" ? "iPhone · App Store" : "Android · Google Play";
 
@@ -116,12 +108,10 @@ export function PaymentAppLinks({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
-                supabase
-                  .rpc("log_app_download_click", { _case_id: caseId, _app: app })
-                  .then(
-                    () => {},
-                    () => {},
-                  );
+                supabase.rpc("log_app_download_click", { _case_id: caseId, _app: app }).then(
+                  () => {},
+                  () => {},
+                );
               }}
               className="rounded-md bg-brand-blue px-3 py-1.5 text-sm font-semibold text-white"
             >
