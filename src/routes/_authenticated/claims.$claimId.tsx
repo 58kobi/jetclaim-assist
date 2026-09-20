@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Check, CreditCard, Info, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Info, Loader2 } from "lucide-react";
 import { PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,16 +90,6 @@ function ClaimDetail() {
     claim.compensation_amount != null && claim.jetclaim_fee_amount != null
       ? Number(claim.compensation_amount) - Number(claim.jetclaim_fee_amount)
       : null;
-
-  async function settleFee(method: string) {
-    const { error } = await supabase
-      .from("claims")
-      .update({ fee_status: "settled", status: "Awaiting Payout" })
-      .eq("id", claimId);
-    if (error) { toast.error(error.message); return; }
-    toast.success(`Fee settlement recorded via ${method}.`);
-    queryClient.invalidateQueries({ queryKey: ["claims"] });
-  }
 
   return (
     <PageShell>
@@ -232,32 +222,6 @@ function ClaimDetail() {
                 ) : null}
               </CardContent>
             </Card>
-
-            {claim.jetclaim_fee_amount != null && !feeSettled ? (
-              <Card className="mt-6">
-                <CardHeader>
-                  <CardTitle className="text-navy">Settle your fee</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm text-muted-foreground">
-                    Choose how you'd like to settle the agreed JetClaim fee of{" "}
-                    {formatMoney(Number(claim.jetclaim_fee_amount), claim.compensation_currency ?? "EUR")}.
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    {["Card", "PayPal", "Bank transfer"].map((method) => (
-                      <Button
-                        key={method}
-                        variant="outline"
-                        className="gap-2"
-                        onClick={() => settleFee(method)}
-                      >
-                        <CreditCard className="size-4" /> {method}
-                      </Button>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ) : null}
 
             {feeSettled ? (
               <BankDetailsCard claimId={claimId} existing={bank} payoutWindow={claim.expected_payout_window} />
