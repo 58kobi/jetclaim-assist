@@ -164,8 +164,8 @@ function ClaimDetail() {
             </CardHeader>
             <CardContent>
               <p className="mb-4 text-sm text-muted-foreground">
-                Select up to two apps you will download, then tell us which one you would like to
-                receive your payout with.
+                Select up to two apps you will download, and tell us which one you will receive
+                payment with.
               </p>
               <PaymentAppPicker caseId={claimId} />
             </CardContent>
