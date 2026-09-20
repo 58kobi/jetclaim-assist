@@ -19,12 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { PaymentAppPicker, PaymentAppLinks } from "@/components/PaymentAppFlow";
 import { useAdminRedirect } from "@/components/admin/admin-redirect";
-import {
-  COMPLAINT_TIMELINE,
-  REFUNDABLE_TIMELINE,
-  formatMoney,
-  statusTone,
-} from "@/lib/jetclaim";
+import { CLAIM_TIMELINE, formatMoney, statusTone } from "@/lib/jetclaim";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/claims/$claimId")({
@@ -80,10 +75,10 @@ function ClaimDetail() {
     );
   }
 
-  const timeline = claim.is_refundable ? REFUNDABLE_TIMELINE : COMPLAINT_TIMELINE;
+  const timeline = CLAIM_TIMELINE;
   const currentIndex = Math.max(
     0,
-    (timeline as readonly string[]).findIndex((s) => s === claim.status),
+    (timeline as readonly string[]).indexOf(claim.status),
   );
   const feeSettled = claim.fee_status === "settled";
   const netPayout =
@@ -285,7 +280,7 @@ function BankDetailsCard({
     if (!error) {
       await supabase
         .from("claims")
-        .update({ bank_details_submitted_at: new Date().toISOString(), status: "Awaiting Payout" })
+        .update({ bank_details_submitted_at: new Date().toISOString() })
         .eq("id", claimId);
     }
     setSaving(false);
