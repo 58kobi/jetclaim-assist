@@ -59,7 +59,7 @@ export function PaymentAppPicker({ caseId }: { caseId: string }) {
 
       {selected.length > 0 ? (
         <div className="space-y-2">
-          <p className="text-sm font-semibold text-navy">Which one will you receive the payment with?</p>
+          <p className="text-sm font-semibold text-navy">Which app will you receive your payout with?</p>
           <RadioGroup value={payWith} onValueChange={(v) => setPayWith(v as AppKey)} className="space-y-2">
             {selected.map((app) => (
               <div key={app} className="flex items-center gap-3">

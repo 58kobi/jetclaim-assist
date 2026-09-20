@@ -170,11 +170,12 @@ function ClaimDetail() {
         {claim.status === "Forwarded to Airline" && !claim.payment_app ? (
           <Card className="mt-6">
             <CardHeader>
-              <CardTitle className="text-navy">Choose your payment app</CardTitle>
+              <CardTitle className="text-navy">Choose where to receive your payout</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="mb-4 text-sm text-muted-foreground">
-                Select up to two apps you will download, and tell us which one you will pay with.
+                Select up to two apps you will download, then tell us which one you would like to
+                receive your payout with.
               </p>
               <PaymentAppPicker caseId={claimId} />
             </CardContent>

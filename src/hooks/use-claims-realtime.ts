@@ -67,5 +67,32 @@ export function useClaimsRealtime(claimId?: string) {
     };
   }, [claimId, queryClient]);
 
+  /**
+   * Live sockets drop when a tab is backgrounded or the network changes (very
+   * common on phones). Re-sync whenever the customer comes back so a step the
+   * team pushed while the tab was asleep is never missed.
+   */
+  useEffect(() => {
+    function sync() {
+      queryClient.invalidateQueries({ queryKey: ["claims"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-claims"] });
+      if (claimId) {
+        queryClient.invalidateQueries({ queryKey: ["claims", claimId] });
+        queryClient.invalidateQueries({ queryKey: ["admin-claim", claimId] });
+      }
+    }
+
+    function onVisible() {
+      if (document.visibilityState === "visible") sync();
+    }
+
+    window.addEventListener("online", sync);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.removeEventListener("online", sync);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [claimId, queryClient]);
+
   return { flash };
 }
