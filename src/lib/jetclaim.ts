@@ -13,42 +13,26 @@ export type IssueType = (typeof ISSUE_TYPES)[number];
 export const CLAIM_STATUSES = [
   "Submitted",
   "Under Review",
-  "Forwarded to Airline",
-  "Fee Pending",
-  "Awaiting Payout",
-  "Resolved",
-  "Closed",
-] as const;
-
-export const REFUNDABLE_TIMELINE = [
-  "Submitted",
-  "Under Review",
   "Approved",
-  "Fee Settlement",
-  "Bank Details",
   "Forwarded to Airline",
   "Payout Received",
 ] as const;
 
-export const COMPLAINT_TIMELINE = [
-  "Submitted",
-  "Under Review",
-  "Forwarded to Airline",
-  "Resolved",
-] as const;
+export type ClaimStatus = (typeof CLAIM_STATUSES)[number];
+
+/** The only progress stages a client ever sees, in order. */
+export const CLAIM_TIMELINE = CLAIM_STATUSES;
 
 export function statusTone(status: string): string {
   switch (status) {
-    case "Resolved":
-      return "bg-success/10 text-success border-success/30";
-    case "Closed":
-      return "bg-muted text-muted-foreground border-border";
-    case "Fee Pending":
-    case "Awaiting Payout":
-      return "bg-warning/15 text-warning border-warning/30";
     case "Under Review":
-    case "Forwarded to Airline":
+      return "bg-warning/15 text-warning border-warning/30";
+    case "Approved":
       return "bg-brand-blue/10 text-brand-blue border-brand-blue/30";
+    case "Forwarded to Airline":
+      return "bg-brand-blue text-brand-blue-soft border-brand-blue";
+    case "Payout Received":
+      return "bg-success/10 text-success border-success/30";
     default:
       return "bg-navy/10 text-navy border-navy/20";
   }
