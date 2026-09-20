@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Check, CreditCard, Info, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Info, Loader2 } from "lucide-react";
 import { PageShell } from "@/components/site/page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
