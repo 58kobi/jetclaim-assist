@@ -91,16 +91,6 @@ function ClaimDetail() {
       ? Number(claim.compensation_amount) - Number(claim.jetclaim_fee_amount)
       : null;
 
-  async function settleFee(method: string) {
-    const { error } = await supabase
-      .from("claims")
-      .update({ fee_status: "settled", status: "Awaiting Payout" })
-      .eq("id", claimId);
-    if (error) { toast.error(error.message); return; }
-    toast.success(`Fee settlement recorded via ${method}.`);
-    queryClient.invalidateQueries({ queryKey: ["claims"] });
-  }
-
   return (
     <PageShell>
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
