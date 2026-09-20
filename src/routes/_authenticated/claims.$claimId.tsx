@@ -233,32 +233,6 @@ function ClaimDetail() {
               </CardContent>
             </Card>
 
-            {claim.jetclaim_fee_amount != null && !feeSettled ? (
-              <Card className="mt-6">
-                <CardHeader>
-                  <CardTitle className="text-navy">Settle your fee</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm text-muted-foreground">
-                    Choose how you'd like to settle the agreed JetClaim fee of{" "}
-                    {formatMoney(Number(claim.jetclaim_fee_amount), claim.compensation_currency ?? "EUR")}.
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    {["Card", "PayPal", "Bank transfer"].map((method) => (
-                      <Button
-                        key={method}
-                        variant="outline"
-                        className="gap-2"
-                        onClick={() => settleFee(method)}
-                      >
-                        <CreditCard className="size-4" /> {method}
-                      </Button>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ) : null}
-
             {feeSettled ? (
               <BankDetailsCard claimId={claimId} existing={bank} payoutWindow={claim.expected_payout_window} />
             ) : null}
