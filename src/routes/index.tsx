@@ -142,14 +142,34 @@ function Landing() {
               )}
             </ul>
 
-            <div className="mt-10 inline-flex items-center gap-3 rounded-lg border border-border bg-card/90 px-4 py-3 text-sm shadow-sm backdrop-blur">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-brand-blue">
-                <Shield className="size-4.5" aria-hidden="true" />
-              </span>
-              <span className="text-muted-foreground">
-                <strong className="block font-bold text-navy">Every claim reviewed individually</strong>
-                Clear updates from submission through resolution.
-              </span>
+            <div className="relative mt-10 w-full max-w-md overflow-hidden rounded-xl border border-border/80 bg-card/80 px-5 py-5 shadow-lg backdrop-blur-md">
+              <div className="absolute inset-y-0 left-0 w-1 bg-brand-blue" aria-hidden="true" />
+              <div className="relative">
+                <div className="flex items-center gap-3 text-[10px] font-bold uppercase text-brand-blue">
+                  <span className="h-px w-5 bg-brand-blue/40" aria-hidden="true" />
+                  The JetClaim standard
+                  <span className="h-px flex-1 bg-brand-blue/20" aria-hidden="true" />
+                </div>
+
+                <div className="mt-3 flex items-start gap-3">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-brand-blue">
+                    <Shield className="size-4.5" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="font-bold leading-snug text-navy">
+                      Your claim receives a careful, individual review.
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      We keep you informed from submission through resolution.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center gap-2 border-t border-border/70 pt-3 text-xs font-semibold text-navy/70">
+                  <Check className="size-3.5 text-success" strokeWidth={3} aria-hidden="true" />
+                  Clear updates at every stage
+                </div>
+              </div>
             </div>
           </div>
 
