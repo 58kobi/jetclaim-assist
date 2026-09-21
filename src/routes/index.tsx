@@ -10,7 +10,6 @@ import {
   Mail,
   Search,
   Shield,
-  Star,
   Trophy,
   Wallet,
 } from "lucide-react";
@@ -143,15 +142,14 @@ function Landing() {
               )}
             </ul>
 
-            <div className="mt-10 inline-flex flex-wrap items-center gap-3 rounded-lg border border-border bg-card/90 px-4 py-3 text-sm shadow-sm backdrop-blur">
-              <span className="font-bold text-navy">Excellent</span>
-              <span className="flex gap-0.5 text-warning">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="size-4 fill-current" />
-                ))}
+            <div className="mt-10 inline-flex items-center gap-3 rounded-lg border border-border bg-card/90 px-4 py-3 text-sm shadow-sm backdrop-blur">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-soft text-brand-blue">
+                <Shield className="size-4.5" aria-hidden="true" />
               </span>
-              <span className="text-muted-foreground">4.8 out of 5 based on 2,500+ reviews</span>
-              <span className="font-semibold text-navy">★ Trustpilot</span>
+              <span className="text-muted-foreground">
+                <strong className="block font-bold text-navy">Every claim reviewed individually</strong>
+                Clear updates from submission through resolution.
+              </span>
             </div>
           </div>
 
