@@ -12,19 +12,21 @@ export type AdminNotification = {
 };
 
 export function useAdminAppNotifications() {
+  // Holds only unread notifications; read ones are removed immediately.
   const [notifications, setNotifications] = useState<AdminNotification[]>([]);
 
-  useEffect(() => {
-    let active = true;
-    supabase
+  const fetchUnread = useCallback(async () => {
+    const { data } = await supabase
       .from("admin_notifications")
       .select("id, case_id, type, message, is_read, created_at")
       .eq("is_read", false)
       .order("created_at", { ascending: false })
-      .limit(20)
-      .then(({ data }) => {
-        if (active && data) setNotifications(data as AdminNotification[]);
-      });
+      .limit(20);
+    if (data) setNotifications(data as AdminNotification[]);
+  }, []);
+
+  useEffect(() => {
+    void fetchUnread();
 
     const channel = supabase
       .channel("admin-notifications")
@@ -40,25 +42,39 @@ export function useAdminAppNotifications() {
       .subscribe();
 
     return () => {
-      active = false;
-      supabase.removeChannel(channel);
+      void supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchUnread]);
 
   const markRead = useCallback((id: string) => {
-    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
-    void supabase.from("admin_notifications").update({ is_read: true }).eq("id", id);
+    // Remove from the unread list right away so the badge count drops.
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+    void supabase
+      .from("admin_notifications")
+      .update({ is_read: true })
+      .eq("id", id)
+      .then(({ error }) => {
+        if (error) toast.error("Could not mark the notification as read.");
+      });
   }, []);
 
   const markAllRead = useCallback(() => {
     setNotifications((prev) => {
-      const ids = prev.filter((n) => !n.is_read).map((n) => n.id);
-      if (ids.length) void supabase.from("admin_notifications").update({ is_read: true }).in("id", ids);
-      return prev.map((n) => ({ ...n, is_read: true }));
+      const ids = prev.map((n) => n.id);
+      if (ids.length) {
+        void supabase
+          .from("admin_notifications")
+          .update({ is_read: true })
+          .in("id", ids)
+          .then(({ error }) => {
+            if (error) toast.error("Could not mark notifications as read.");
+          });
+      }
+      return [];
     });
   }, []);
 
-  const unreadCount = notifications.filter((n) => !n.is_read).length;
+  const unreadCount = notifications.length;
 
   return { notifications, unreadCount, markRead, markAllRead };
 }
