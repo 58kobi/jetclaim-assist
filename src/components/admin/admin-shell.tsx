@@ -47,7 +47,12 @@ function NotificationBell() {
       <PopoverContent align="end" className="w-80 p-0">
         <div className="flex items-center justify-between border-b border-border px-3 py-2">
           <span className="text-sm font-semibold text-navy">Notifications</span>
-          <button type="button" onClick={markAllRead} className="text-xs text-brand-blue hover:underline">
+          <button
+            type="button"
+            onClick={markAllRead}
+            disabled={unreadCount === 0}
+            className="text-xs text-brand-blue hover:underline disabled:cursor-not-allowed disabled:opacity-40"
+          >
             Mark all read
           </button>
         </div>
