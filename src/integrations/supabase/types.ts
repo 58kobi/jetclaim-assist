@@ -241,6 +241,8 @@ export type Database = {
           compensation_amount: number | null
           compensation_currency: string | null
           created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
           departure_airport: string
           description: string | null
           device_platform: string | null
@@ -269,6 +271,8 @@ export type Database = {
           compensation_amount?: number | null
           compensation_currency?: string | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           departure_airport: string
           description?: string | null
           device_platform?: string | null
@@ -297,6 +301,8 @@ export type Database = {
           compensation_amount?: number | null
           compensation_currency?: string | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           departure_airport?: string
           description?: string | null
           device_platform?: string | null
