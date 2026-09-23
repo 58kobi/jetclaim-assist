@@ -11,6 +11,7 @@ import {
   Settings,
   ShieldAlert,
   Table2,
+  Trash2,
   Users,
 } from "lucide-react";
 import { Logo } from "@/components/site/logo";
@@ -87,6 +88,7 @@ const NAV = [
   { to: "/admin/airlines", label: "Airlines & regulations", icon: BookOpen, exact: false },
   { to: "/admin/users", label: "Users", icon: Users, exact: false },
   { to: "/admin/payments", label: "Payments & payouts", icon: BadgeDollarSign, exact: false },
+  { to: "/admin/trash", label: "Trash", icon: Trash2, exact: false },
   { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
 ] as const;
 
