@@ -26,6 +26,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminAirlinesRouteImport } from './routes/_authenticated/admin.airlines'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminTrashRouteImport } from './routes/_authenticated/admin.trash'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedClaimsClaimIdRouteImport } from './routes/_authenticated/claims.$claimId'
 import { Route as AuthenticatedAdminClaimsIndexRouteImport } from './routes/_authenticated/admin.claims.index'
@@ -118,6 +119,11 @@ const AuthenticatedAdminSettingsRoute =
     path: '/admin/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTrashRoute = AuthenticatedAdminTrashRouteImport.update({
+  id: '/admin/trash',
+  path: '/admin/trash',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/trash': typeof AuthenticatedAdminTrashRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/trash': typeof AuthenticatedAdminTrashRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -204,6 +212,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/trash': typeof AuthenticatedAdminTrashRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/claims/$claimId': typeof AuthenticatedClaimsClaimIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin/airlines'
     | '/admin/payments'
     | '/admin/settings'
+    | '/admin/trash'
     | '/admin/users'
     | '/claims/$claimId'
     | '/admin/'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/airlines'
     | '/admin/payments'
     | '/admin/settings'
+    | '/admin/trash'
     | '/admin/users'
     | '/claims/$claimId'
     | '/admin'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/airlines'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/trash'
     | '/_authenticated/admin/users'
     | '/_authenticated/claims/$claimId'
     | '/_authenticated/admin/'
@@ -416,6 +428,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/trash': {
+      id: '/_authenticated/admin/trash'
+      path: '/admin/trash'
+      fullPath: '/admin/trash'
+      preLoaderRoute: typeof AuthenticatedAdminTrashRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/users': {
       id: '/_authenticated/admin/users'
       path: '/admin/users'
@@ -452,6 +471,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminAirlinesRoute: typeof AuthenticatedAdminAirlinesRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTrashRoute: typeof AuthenticatedAdminTrashRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedClaimsClaimIdRoute: typeof AuthenticatedClaimsClaimIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -464,6 +484,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminAirlinesRoute: AuthenticatedAdminAirlinesRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminTrashRoute: AuthenticatedAdminTrashRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedClaimsClaimIdRoute: AuthenticatedClaimsClaimIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
