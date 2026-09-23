@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Download, FileText, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, Download, FileText, Loader2, RotateCcw, Sparkles, Trash2 } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-admin";
+import { setClaimTrashed } from "@/hooks/use-admin-claims";
 import { useClaimsRealtime } from "@/hooks/use-claims-realtime";
 import { CLAIM_STATUSES, REGULATION_BADGES, REGULATION_DETAILS, formatMoney } from "@/lib/jetclaim";
 import { matchRegulation } from "@/lib/regulation-match";
@@ -71,8 +83,10 @@ function AdminClaimReview() {
   const { claimId } = Route.useParams();
   const { isAdmin, loading } = useIsAdmin();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   useClaimsRealtime(claimId);
   const [saving, setSaving] = useState(false);
+  const [trashing, setTrashing] = useState(false);
   const [letter, setLetter] = useState<string | null>(null);
 
   const [refundable, setRefundable] = useState(false);
@@ -196,15 +210,80 @@ function AdminClaimReview() {
     URL.revokeObjectURL(url);
   }
 
+  const inTrash = !!claim.deleted_at;
+
+  async function toggleTrash(trashed: boolean) {
+    setTrashing(true);
+    try {
+      await setClaimTrashed(claimId, trashed);
+      queryClient.invalidateQueries({ queryKey: ["admin-claims"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-claim", claimId] });
+      if (trashed) {
+        toast.success("Claim moved to trash.");
+        navigate({ to: "/admin/claims" });
+      } else {
+        toast.success("Claim restored to the queue.");
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update claim.");
+    } finally {
+      setTrashing(false);
+    }
+  }
+
   return (
     <AdminShell
       title={`${claim.airline_name} · ${claim.flight_number}`}
       subtitle={`Reference ${claim.reference}`}
     >
       <div className="mx-auto max-w-6xl">
-        <Link to="/admin/claims" className="inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline">
-          <ArrowLeft className="size-4" /> Back to queue
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link
+            to={inTrash ? "/admin/trash" : "/admin/claims"}
+            className="inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline"
+          >
+            <ArrowLeft className="size-4" /> {inTrash ? "Back to trash" : "Back to queue"}
+          </Link>
+          {inTrash ? null : (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                  <Trash2 className="size-4" /> Delete claim
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Move this claim to trash?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    It will disappear from the admin dashboard and claims queue. You can find it and restore it
+                    any time from Trash.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => toggleTrash(true)}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Delete claim
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
+
+        {inTrash ? (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-md border border-destructive/30 bg-destructive/5 px-4 py-3">
+            <p className="text-sm text-navy">
+              This claim is in trash — deleted on {new Date(claim.deleted_at!).toLocaleString("en-GB")}.
+            </p>
+            <Button size="sm" variant="outline" onClick={() => toggleTrash(false)} disabled={trashing}>
+              {trashing ? <Loader2 className="size-4 animate-spin" /> : <RotateCcw className="size-4" />}
+              Restore claim
+            </Button>
+          </div>
+        ) : null}
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
           <div className="space-y-6">
