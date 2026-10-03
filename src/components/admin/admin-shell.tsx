@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Loader2,
   LogOut,
+  MessageCircle,
   Settings,
   ShieldAlert,
   Table2,
@@ -85,6 +86,7 @@ function NotificationBell() {
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/claims", label: "Claims queue", icon: Table2, exact: false },
+  { to: "/admin/chats", label: "Chat inquiries", icon: MessageCircle, exact: false },
   { to: "/admin/airlines", label: "Airlines & regulations", icon: BookOpen, exact: false },
   { to: "/admin/users", label: "Users", icon: Users, exact: false },
   { to: "/admin/payments", label: "Payments & payouts", icon: BadgeDollarSign, exact: false },

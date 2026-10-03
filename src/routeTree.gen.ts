@@ -24,6 +24,7 @@ import { Route as YourRightsRouteImport } from './routes/your-rights'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAirlinesRouteImport } from './routes/_authenticated/admin.airlines'
+import { Route as AuthenticatedAdminChatsRouteImport } from './routes/_authenticated/admin.chats'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminTrashRouteImport } from './routes/_authenticated/admin.trash'
@@ -107,6 +108,11 @@ const AuthenticatedAdminAirlinesRoute =
     path: '/admin/airlines',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminChatsRoute = AuthenticatedAdminChatsRouteImport.update({
+  id: '/admin/chats',
+  path: '/admin/chats',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminPaymentsRoute =
   AuthenticatedAdminPaymentsRouteImport.update({
     id: '/admin/payments',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/admin/chats': typeof AuthenticatedAdminChatsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/trash': typeof AuthenticatedAdminTrashRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/your-rights': typeof YourRightsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/admin/chats': typeof AuthenticatedAdminChatsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/trash': typeof AuthenticatedAdminTrashRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/your-rights': typeof YourRightsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/admin/airlines': typeof AuthenticatedAdminAirlinesRoute
+  '/_authenticated/admin/chats': typeof AuthenticatedAdminChatsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/trash': typeof AuthenticatedAdminTrashRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/your-rights'
     | '/dashboard'
     | '/admin/airlines'
+    | '/admin/chats'
     | '/admin/payments'
     | '/admin/settings'
     | '/admin/trash'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/your-rights'
     | '/dashboard'
     | '/admin/airlines'
+    | '/admin/chats'
     | '/admin/payments'
     | '/admin/settings'
     | '/admin/trash'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/your-rights'
     | '/_authenticated/dashboard'
     | '/_authenticated/admin/airlines'
+    | '/_authenticated/admin/chats'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/trash'
@@ -414,6 +426,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAirlinesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/chats': {
+      id: '/_authenticated/admin/chats'
+      path: '/admin/chats'
+      fullPath: '/admin/chats'
+      preLoaderRoute: typeof AuthenticatedAdminChatsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/payments': {
       id: '/_authenticated/admin/payments'
       path: '/admin/payments'
@@ -469,6 +488,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedAdminAirlinesRoute: typeof AuthenticatedAdminAirlinesRoute
+  AuthenticatedAdminChatsRoute: typeof AuthenticatedAdminChatsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminTrashRoute: typeof AuthenticatedAdminTrashRoute
@@ -482,6 +502,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedAdminAirlinesRoute: AuthenticatedAdminAirlinesRoute,
+  AuthenticatedAdminChatsRoute: AuthenticatedAdminChatsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminTrashRoute: AuthenticatedAdminTrashRoute,
